@@ -75,6 +75,16 @@ namespace unbox.backend
         
         List<CalendarEntry> Build_calendar() {
             var cal = new List<CalendarEntry>();
+
+            if (_consultations.Any()) {
+                var d = _consultations.First().RequestedTimeslot.Start;
+                cal.Add(new CalendarEntry {
+                    ConsultationId = "Mahlzeit",
+                    Start = new DateTime(d.Year, d.Month, d.Day, 12, 0, 0),
+                    End = new DateTime(d.Year, d.Month, d.Day, 13, 0, 0)
+                });
+            }
+
             cal.AddRange(_consultations.Where(cons => cons.ActualTimeslot != null)
                                        .Select(cons => new CalendarEntry {
                                             ConsultationId = cons.ConsultationId,

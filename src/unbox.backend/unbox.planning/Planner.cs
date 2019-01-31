@@ -12,19 +12,30 @@ namespace unbox.planning
             {
                 if (consultation.PlannedStart == null)
                 {
-                    var newConsultation = new CalendarEntry();
-                    newConsultation.Start = consultation.RequestedTimeslot.Start;
+                    var ConsultationOption = new CalendarEntry();
+                    ConsultationOption.Start = consultation.RequestedTimeslot.Start;
                     var temporaryEnd = consultation.RequestedTimeslot.Start.Add(consultation.RequestedTimeslot.Duration);
-                    newConsultation.ConsultationId = consultation.ConsultationId;
-                    newConsultation.End = temporaryEnd;
-                    if (HasCollition(calendar, newConsultation))
+                    ConsultationOption.ConsultationId = consultation.ConsultationId;
+                    ConsultationOption.End = temporaryEnd;
+                    if (HasCollition(calendar, ConsultationOption))
                     {
-                        return false;
+                        var newPlannedTime = FindNewConsultationOption(calendar, consultation, ConsultationOption);
+                        if( newPlannedTime == null)
+                        {
+                            consultations.Remove(consultation);
+                            return false;
+                        }
+                        else
+                        {
+                            consultation.PlannedStart = newPlannedTime;
+                            calendar.Add(ConsultationOption);
+                            return true;
+                        }
                     }
                     else
                     {
                         consultation.PlannedStart = consultation.RequestedTimeslot.Start;
-                        calendar.Add(newConsultation);
+                        calendar.Add(ConsultationOption);
                         return true;
                     }
                 }
@@ -32,6 +43,23 @@ namespace unbox.planning
             }  
 
             return true;
+        }
+
+        private static DateTime? FindNewConsultationOption(List<CalendarEntry> calendar, Consultation consultation, CalendarEntry consultationOption)
+        {
+            bool consultationSet = false;
+            do
+            {
+                consultationOption.Start.AddMinutes(5);
+                if(!HasCollition(calendar, consultationOption))
+                {
+                    consultationSet = true;
+                    return consultationOption.Start;
+                }
+            }while (!consultationSet && (consultationOption.Start.Add(consultation.RequestedTimeslot.Duration) < consultation.RequestedTimeslot.End)));
+
+            return null;
+
         }
 
         private static bool HasCollition(List<CalendarEntry> calendar, CalendarEntry newConsultation)

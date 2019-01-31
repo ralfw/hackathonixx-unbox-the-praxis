@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using unbox.frontend.viewmodels.nexttimeslots;
 using x.common.WPF.Commands;
 using x.common.WPF.ViewModel;
 
@@ -20,14 +22,19 @@ namespace unbox.frontend.addConsultation.viewModels
             set => SetProperty(nameof(RequestedDuration), ref _requestesDuration, value);
         }
 
+        public List<DayViewModel> Days { get; set; }
+
         public RelayCommand AddConsultationCommand { get; set; }
 
         public RelayCommand AddTimeSlotCommand { get; set; }
 
-        public AddConsultationViewModel(Action addConsultation, Action onHasToShowSelectionTimeSlots)
+        public RelayCommand CloseCommand { get; set; }
+
+        public AddConsultationViewModel(Action addConsultation, Action onHasToShowSelectionTimeSlots, Action onCloseRequest)
         {
             AddConsultationCommand = new RelayCommand(addConsultation);
             AddTimeSlotCommand = new RelayCommand(onHasToShowSelectionTimeSlots);
+            CloseCommand = new RelayCommand(onCloseRequest);           
         }
 
     }

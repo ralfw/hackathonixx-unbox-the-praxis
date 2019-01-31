@@ -1,0 +1,1 @@
+In diesen Ordner müssen lokal die x.common.WPF.dll und x.common.Net.dll gelegt werden, die aus lizenzrechtlichen Gründen nicht ins Repository gepusht werden dürfen.

@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="unbox.frontend.usercontrols.NextTimeSlotsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:unbox.frontend.usercontrols"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             UseLayoutRounding="True"
+             SnapsToDevicePixels="True">
+    <Border BorderBrush="DarkGray" Background="White" BorderThickness="1">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Days}" Margin="-1,0,0,0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="DarkGray" BorderThickness="1,0,0,0">
+                            <StackPanel Margin="0,0,10,0">
+                                <Border BorderThickness="0,0,1,1" BorderBrush="DarkGray">
+                                    <TextBlock Text="{Binding Day}" Margin="5" />
+                                </Border>
+                                <ItemsControl ItemsSource="{Binding Hours}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="DarkGray" BorderThickness="0,0,1,0" Name="Bg" MouseDown="Bg_MouseDown">
+                                                <StackPanel>
+                                                    <TextBlock Margin="5" Text="{Binding Hour}" Name="Text" />
+                                                    <CheckBox Margin="5,0,5,5" IsChecked="{Binding IsPatientAvailable, Mode=TwoWay}" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </Border>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Workload}" Value="Blocked">
+                                                    <Setter TargetName="Bg" Property="Background" Value="LightGray" />
+                                                    <Setter TargetName="Text" Property="Foreground" Value="Gray" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Workload}" Value="Green">
+                                                    <Setter TargetName="Bg" Property="Background" Value="PaleGreen" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Workload}" Value="Yellow">
+                                                    <Setter TargetName="Bg" Property="Background" Value="#FFFF80" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Workload}" Value="Red">
+                                                    <Setter TargetName="Bg" Property="Background" Value="Coral" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Border>
+</UserControl>

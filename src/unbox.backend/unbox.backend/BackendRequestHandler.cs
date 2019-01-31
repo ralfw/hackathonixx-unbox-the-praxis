@@ -38,14 +38,15 @@ namespace unbox.backend
         }
 
         public CurrentPlanResult Handle(CurrentPlanQuery query) {
-            var result = _consultations.Where(cons => cons.PlannedStart.Date == query.Date.Date)
+            var result = _consultations.Where(cons => cons.PlannedStart.HasValue && 
+                                                      cons.PlannedStart.Value.Date == query.Date.Date)
                                        .OrderBy(cons => cons.PlannedStart);
             
             return new CurrentPlanResult {
                 Schedule = result.Select(cons => new CurrentPlanResult.PlannedConsultation {
                                                             ConsultationId = cons.ConsultationId,
                                                             PatientId = cons.PatientId,
-                                                            AssignedTimeslotStart = cons.PlannedStart,
+                                                            AssignedTimeslotStart = cons.PlannedStart.Value,
                                                             RequestedTimeslot = cons.RequestedTimeslot
                                                         })
             };
@@ -73,11 +74,11 @@ namespace unbox.backend
                                             Start = cons.ActualTimeslot.Start,
                                             End = cons.ActualTimeslot.End
                                        }));
-            cal.AddRange(_consultations.Where(cons => cons.PlannedStart > DateTime.MinValue)
+            cal.AddRange(_consultations.Where(cons => cons.PlannedStart.HasValue)
                                        .Select(cons => new CalendarEntry {
                                             ConsultationId = cons.ConsultationId,
-                                            Start = cons.PlannedStart,
-                                            End = cons.PlannedStart.Add(cons.RequestedTimeslot.Duration)
+                                            Start = cons.PlannedStart.Value,
+                                            End = cons.PlannedStart.Value.Add(cons.RequestedTimeslot.Duration)
                                        }));
             return cal;
         }

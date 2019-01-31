@@ -52,6 +52,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="X.COMMON.NET">
+      <HintPath>..\..\..\lib.private\X.COMMON.NET.DLL</HintPath>
+    </Reference>
+    <Reference Include="X.COMMON.WPF">
+      <HintPath>..\..\..\lib.private\X.COMMON.WPF.DLL</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

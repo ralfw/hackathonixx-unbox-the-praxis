@@ -22,7 +22,8 @@ namespace unbox.backend
         public bool Handle(RegisterConsultationCommand cmd) {
             Register(cmd);
             var cal = Build_calendar();
-            return Planner.UpdatePlan(cal, _consultations);
+            var plan = Planner.UpdatePlan(cal, _consultations);
+            return plan;
         }
 
         public void Handle(RegisterRealTimeslotCommand cmd) {
@@ -37,9 +38,15 @@ namespace unbox.backend
             }
         }
 
-        public CurrentPlanResult Handle(CurrentPlanQuery query) {
+        public CurrentPlanResult Handle(CurrentPlanQuery query)
+        {
+            var x = _consultations.First();
+            
+            
             var result = _consultations.Where(cons => cons.PlannedStart.HasValue && 
-                                                      cons.PlannedStart.Value.Date == query.Date.Date)
+                                                      cons.PlannedStart.Value.Year == query.Date.Year &&
+                                                      cons.PlannedStart.Value.Month == query.Date.Month &&
+                                                      cons.PlannedStart.Value.Day == query.Date.Day)
                                        .OrderBy(cons => cons.PlannedStart);
             
             return new CurrentPlanResult {
@@ -59,7 +66,7 @@ namespace unbox.backend
                 ConsultationId = cmd.ConsultationId,
                 PatientId = cmd.PatientId,
                 RequestedTimeslot = cmd.RequestedTimeslot,
-                PlannedStart = DateTime.MinValue,
+                PlannedStart = null,
                 ActualTimeslot = null,
                 Fixed = false
             });   

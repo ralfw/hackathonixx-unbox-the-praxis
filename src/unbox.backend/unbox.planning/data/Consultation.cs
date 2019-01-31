@@ -9,7 +9,7 @@ namespace unbox.planning.data
         public string PatientId;
         public Timeslot RequestedTimeslot;
 
-        public DateTime PlannedStart;
+        public DateTime? PlannedStart;
 
         public Timeslot ActualTimeslot;
         public bool Fixed;

@@ -12,11 +12,33 @@ namespace unbox.planning
             {
                 if (consultation.PlannedStart == null)
                 {
+                    var newConsultation = new CalendarEntry();
+                    newConsultation.Start = consultation.RequestedTimeslot.Start;
+                    
+                    newConsultation.End = consultation.RequestedTimeslot.Start.Add(consultation.RequestedTimeslot.Duration);
+                    if (CheckCollition())
+                    {
+
+                    }
+                    else
+                    {
+                        consultation.PlannedStart = consultation.RequestedTimeslot.Start;
+                        calendar.Add(new CalendarEntry(){
+                            Start = consultation.RequestedTimeslot.Start,
+                            
+                        });
+                        return true;
+                    }
                 }
                
             }  
 
             return false;
+        }
+
+        private static bool CheckCollition()
+        {
+            throw new NotImplementedException();
         }
     }
 }

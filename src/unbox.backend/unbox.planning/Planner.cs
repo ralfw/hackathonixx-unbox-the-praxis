@@ -17,7 +17,7 @@ namespace unbox.planning
                     var temporaryEnd = consultation.RequestedTimeslot.Start.Add(consultation.RequestedTimeslot.Duration);
                     ConsultationOption.ConsultationId = consultation.ConsultationId;
                     ConsultationOption.End = temporaryEnd;
-                    if (HasCollition(calendar, ConsultationOption))
+                    if (HasCollision(calendar, ConsultationOption))
                     {
                         var newPlannedTime = FindNewConsultationOption(calendar, consultation, ConsultationOption);
                         if( newPlannedTime == null)
@@ -51,18 +51,18 @@ namespace unbox.planning
             do
             {
                 consultationOption.Start.AddMinutes(5);
-                if(!HasCollition(calendar, consultationOption))
+                if(!HasCollision(calendar, consultationOption))
                 {
                     consultationSet = true;
                     return consultationOption.Start;
                 }
-            }while (!consultationSet && (consultationOption.Start.Add(consultation.RequestedTimeslot.Duration) < consultation.RequestedTimeslot.End)));
+            }while (!consultationSet && (consultationOption.Start.Add(consultation.RequestedTimeslot.Duration) < consultation.RequestedTimeslot.End));
 
             return null;
 
         }
 
-        private static bool HasCollition(List<CalendarEntry> calendar, CalendarEntry newConsultation)
+        private static bool HasCollision(List<CalendarEntry> calendar, CalendarEntry newConsultation)
         {
             foreach(var element in calendar)
             {

@@ -12,11 +12,38 @@ namespace unbox.planning
             {
                 if (consultation.PlannedStart == null)
                 {
+                    var newConsultation = new CalendarEntry();
+                    newConsultation.Start = consultation.RequestedTimeslot.Start;
+                    var temporaryEnd = consultation.RequestedTimeslot.Start.Add(consultation.RequestedTimeslot.Duration);
+                    newConsultation.ConsultationId = consultation.ConsultationId;
+                    newConsultation.End = temporaryEnd;
+                    if (HasCollition(calendar, newConsultation))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        consultation.PlannedStart = consultation.RequestedTimeslot.Start;
+                        calendar.Add(newConsultation);
+                        return true;
+                    }
                 }
                
             }  
 
-            return false;
+            return true;
+        }
+
+        private static bool HasCollition(List<CalendarEntry> calendar, CalendarEntry newConsultation)
+        {
+            foreach(var element in calendar)
+            {
+                if ((newConsultation.Start <= element.Start && newConsultation.End >= element.Start)||(newConsultation.Start >= element.Start && element.End > newConsultation.Start))
+                {
+                    return true;
+                }
+            }
+            return false; 
         }
     }
 }

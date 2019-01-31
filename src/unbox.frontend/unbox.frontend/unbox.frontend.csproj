@@ -64,6 +64,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="addConsultation\AddConsultationUi.cs" />
+    <Compile Include="addConsultation\viewModels\TimeSlotSelectionViewModel.cs" />
+    <Compile Include="addConsultation\view\TimeSlotSelectionWindow.xaml.cs">
+      <DependentUpon>TimeSlotSelectionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="addConsultation\viewModels\AddConsultationViewModel.cs" />
+    <Compile Include="addConsultation\view\AddConsultationWindow.xaml.cs">
+      <DependentUpon>AddConsultationWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="addConsultation\view\TimeSlotSelectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +90,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="addConsultation\view\AddConsultationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

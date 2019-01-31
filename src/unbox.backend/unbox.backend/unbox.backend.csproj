@@ -40,9 +40,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="unbox.contracts">
-      <HintPath>..\..\..\lib.contracts\unbox.contracts.dll</HintPath>
-    </Reference>
     <Reference Include="unbox.contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\lib.contracts\unbox.contracts.dll</HintPath>
     </Reference>

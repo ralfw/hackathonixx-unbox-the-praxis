@@ -56,7 +56,7 @@ namespace unbox.planning
                     consultationSet = true;
                     return consultationOption.Start;
                 }
-            }while (!consultationSet && (consultationOption.Start.Add(consultation.RequestedTimeslot.Duration) < consultation.RequestedTimeslot.End));
+            }while(!consultationSet || (consultationOption.Start.Add(consultation.RequestedTimeslot.Duration) < consultation.RequestedTimeslot.End));
 
             return null;
 

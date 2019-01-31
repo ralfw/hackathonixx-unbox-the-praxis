@@ -8,6 +8,15 @@ namespace unbox.planning
     {
         public static bool UpdatePlan(List<CalendarEntry> calendar, List<Consultation> consultations)
         {
+            foreach(var consultation in consultations )
+            {
+                if(consultation.PlannedStart)
+                if (consultation.Fixed)
+                {
+                    calendar.Add()
+                }
+            }
+
             return false;
         }
     }

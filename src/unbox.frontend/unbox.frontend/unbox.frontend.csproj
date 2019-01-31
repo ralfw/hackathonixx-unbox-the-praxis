@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>unbox.frontend</RootNamespace>
     <AssemblyName>unbox.frontend</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,6 +65,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DummyTestWindow.xaml.cs">
+      <DependentUpon>DummyTestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="enums\WorkloadEnum.cs" />
+    <Compile Include="usercontrols\NextTimeSlotsControl.xaml.cs">
+      <DependentUpon>NextTimeSlotsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="usercontrols\TimeSlotCalendarControl.xaml.cs">
+      <DependentUpon>TimeSlotCalendarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="viewmodels\nexttimeslots\DayViewModel.cs" />
+    <Compile Include="viewmodels\nexttimeslots\HourViewModel.cs" />
+    <Compile Include="viewmodels\timeslotcalendar\CalendarViewModel.cs" />
+    <Compile Include="viewmodels\timeslotcalendar\DayViewModel.cs" />
+    <Compile Include="viewmodels\timeslotcalendar\MonthViewModel.cs" />
+    <Page Include="DummyTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +96,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="usercontrols\NextTimeSlotsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="usercontrols\TimeSlotCalendarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -102,6 +130,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\prev16dunkel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\next16dunkel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

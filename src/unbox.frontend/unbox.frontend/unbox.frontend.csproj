@@ -69,6 +69,9 @@
       <DependentUpon>DummyTestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="enums\WorkloadEnum.cs" />
+    <Compile Include="helper\DtoMapper.cs" />
+    <Compile Include="helper\TimeSlotStringMapper.cs" />
+    <Compile Include="MainUi.cs" />
     <Compile Include="usercontrols\NextTimeSlotsControl.xaml.cs">
       <DependentUpon>NextTimeSlotsControl.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\next16dunkel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\info16gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\icon16LinkCancel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

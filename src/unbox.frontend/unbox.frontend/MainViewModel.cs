@@ -1,4 +1,5 @@
-﻿using unbox.frontend.addConsultation;
+﻿using unbox.contracts;
+using unbox.frontend.addConsultation;
 using x.common.WPF.Commands;
 using x.common.WPF.ViewModel;
 
@@ -10,9 +11,9 @@ namespace unbox.frontend
 
         private AddConsultationUi _addConsultationUi;
 
-        public MainViewModel()
+        public MainViewModel(IBackendRequestHandler backendRequestHandler)
         {
-            _addConsultationUi = new AddConsultationUi();
+            _addConsultationUi = new AddConsultationUi(backendRequestHandler);
             ShowAddConsultationCommand = new RelayCommand(OnShowAddConsultationWindowRequest);
         }
 

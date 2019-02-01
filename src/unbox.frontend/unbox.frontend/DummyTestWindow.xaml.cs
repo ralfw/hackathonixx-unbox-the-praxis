@@ -122,17 +122,11 @@ namespace unbox.frontend
                 new TimeSlotViewModel(new DateTime(2018,05,12,08,00,00), new DateTime(2018,05,12,12,00,00), new DateTime(2018,05,12,09,00,00), new TimeSpan(1,00,00), true),
                 new TimeSlotViewModel(new DateTime(2018,05,12,07,00,00), new DateTime(2018,05,12,13,00,00), new DateTime(2018,05,12,10,00,00), new TimeSpan(1,30,00))
             };
-            Hours = new List<viewmodels.timeslotplan.HourViewModel>();
-            for (var i = 0; i < 24; i++)
-            {
-                Hours.Add(new viewmodels.timeslotplan.HourViewModel(i));
-            }
             pln.DataContext = this;
 
         }
 
         public List<DayViewModel> Days { get; set; }
         public List<TimeSlotViewModel> TimeSlots { get; set; }
-        public List<viewmodels.timeslotplan.HourViewModel> Hours { get; set; }
     }
 }

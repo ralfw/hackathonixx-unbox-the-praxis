@@ -1,0 +1,104 @@
+﻿<Window x:Class="unbox.frontend.addConsultation.view.AddConsultationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:x.common.WPF.Controls;assembly=x.common.wpf"
+        xmlns:usercontrols="clr-namespace:unbox.frontend.usercontrols"
+        xmlns:converters="clr-namespace:x.common.WPF.Converters;assembly=x.common.wpf"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="AddConsultationWindow" SizeToContent="Height" Width="810"
+        Background="{x:Static SystemColors.ControlBrush}">
+    <Window.Resources>
+        <converters:AllToVisibilityConverter x:Key="AllToVisibilityConverter" />
+        <converters:InverseAllToVisibilityConverter x:Key="InverseAllToVisibilityConverter"/>
+        <converters:BoolInvertConverter x:Key="InvertConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <controls:ShadowBorder Grid.Row="0" Padding="10,10,10,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Patient:" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Patient}" HorizontalAlignment="Left" Width="300"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Vorraussichtl. Behandlungsdauer:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
+                    <controls:SpinBox Value="{Binding RequestedDuration, Mode=TwoWay}" HorizontalAlignment="Left" Width="45"/>
+                    <TextBlock Text="Minuten" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                </StackPanel>
+                
+
+        <!--        <TextBlock Grid.Column="0" Grid.Row="4" Text="Beschreibung:" HorizontalAlignment="Right" />
+                <TextBox Grid.Column="2" Grid.Row="4" TextWrapping="Wrap" Height="50"/>-->
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="Zeitplanung:"  HorizontalAlignment="Right"/>
+                <DockPanel  Grid.Column="2" Grid.Row="6" Grid.RowSpan="2">
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <RadioButton Grid.Column="0" GroupName="Zeitplanung" Grid.Row="0" Content="Akuter Termin"                                   
+                                     IsChecked="{Binding IsUrgent}"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Patient hat Zeit:" Margin="15,0,5,0" VerticalAlignment="Bottom"/>
+                        <usercontrols:NextTimeSlotsControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding DataContextNextCalendar}" DockPanel.Dock="Top" />
+                    </Grid>
+                    <StackPanel Orientation="Vertical">
+                        <RadioButton GroupName="Zeitplanung" Content="Termin in Zukunft:" Margin="0,10,5,0" IsChecked="{Binding IsUrgent, Converter={StaticResource InvertConverter}}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding RequestedDateString}" VerticalAlignment="Center" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding RequestedTimeSlotString}" VerticalAlignment="Center" Margin="10,0,15,0" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"/>
+                            <controls:LightweightImageButton ImageSource="../../images/icon16LinkCancel.png"
+                                                             VerticalAlignment="Center"
+                                                             Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"
+                                                             Command="{Binding RemoveRequestedTimeSpanCommand}"
+                                                             BorderThickness="0">
+
+                            </controls:LightweightImageButton>
+                            
+                        </StackPanel>
+                        <controls:HyperlinkButton Content="Zeitslot angeben..." Margin="15,5,0,0" 
+                                                  Command="{Binding AddTimeSlotCommand}" 
+                                                  Visibility="{Binding RequestedDateString, Converter={StaticResource InverseAllToVisibilityConverter}}"/>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </controls:ShadowBorder>
+       
+       <!-- <Separator Grid.Row="1" Margin="0,15,0,15"/>-->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <controls:AdvancedButton Content="OK" Command="{Binding AddConsultationCommand}" IsDefault="True" Margin="0,0,10,0"/>
+            <controls:AdvancedButton Content="Abbrechen" Command="{Binding CloseCommand}" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

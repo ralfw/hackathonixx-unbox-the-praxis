@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>unbox.frontend</RootNamespace>
     <AssemblyName>unbox.frontend</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,18 +47,71 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="unbox.backend">
+      <HintPath>..\..\..\bin\unbox.backend.dll</HintPath>
+    </Reference>
     <Reference Include="unbox.contracts">
       <HintPath>..\..\..\lib.contracts\unbox.contracts.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="X.COMMON.NET">
+      <HintPath>..\..\..\lib.private\X.COMMON.NET.DLL</HintPath>
+    </Reference>
+    <Reference Include="X.COMMON.WPF">
+      <HintPath>..\..\..\lib.private\X.COMMON.WPF.DLL</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="controls\RelationPanel.cs" />
+    <Compile Include="DummyTestWindow.xaml.cs">
+      <DependentUpon>DummyTestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="enums\WorkloadEnum.cs" />
+    <Compile Include="helper\DtoMapper.cs" />
+    <Compile Include="helper\TimeSlotStringMapper.cs" />
+    <Compile Include="helper\WorkloadCalculator.cs" />
+    <Compile Include="MainUi.cs" />
+    <Compile Include="usercontrols\NextTimeSlotsControl.xaml.cs">
+      <DependentUpon>NextTimeSlotsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="usercontrols\TimeSlotCalendarControl.xaml.cs">
+      <DependentUpon>TimeSlotCalendarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="usercontrols\TimeSlotPlan.xaml.cs">
+      <DependentUpon>TimeSlotPlan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="viewmodels\nexttimeslots\DayViewModel.cs" />
+    <Compile Include="viewmodels\nexttimeslots\HourViewModel.cs" />
+    <Compile Include="viewmodels\nexttimeslots\NextTimeSlotsViewModel.cs" />
+    <Compile Include="viewmodels\timeslotcalendar\CalendarViewModel.cs" />
+    <Compile Include="viewmodels\timeslotcalendar\DayViewModel.cs" />
+    <Compile Include="viewmodels\timeslotcalendar\MonthViewModel.cs" />
+    <Compile Include="viewmodels\timeslotplan\HourViewModel.cs" />
+    <Compile Include="viewmodels\timeslotplan\TimeSlotViewModel.cs" />
+    <Page Include="DummyTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="addConsultation\AddConsultationUi.cs" />
+    <Compile Include="addConsultation\viewModels\TimeSlotSelectionViewModel.cs" />
+    <Compile Include="addConsultation\view\TimeSlotSelectionWindow.xaml.cs">
+      <DependentUpon>TimeSlotSelectionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="addConsultation\viewModels\AddConsultationViewModel.cs" />
+    <Compile Include="addConsultation\view\AddConsultationWindow.xaml.cs">
+      <DependentUpon>AddConsultationWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="addConsultation\view\TimeSlotSelectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,6 +124,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="addConsultation\view\AddConsultationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="usercontrols\NextTimeSlotsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="usercontrols\TimeSlotCalendarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="usercontrols\TimeSlotPlan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -96,6 +166,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\prev16dunkel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\next16dunkel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\info16gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\icon16LinkCancel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

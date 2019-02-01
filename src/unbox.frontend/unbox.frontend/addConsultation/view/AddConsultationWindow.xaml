@@ -8,7 +8,8 @@
         xmlns:converters="clr-namespace:x.common.WPF.Converters;assembly=x.common.wpf"
         ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="AddConsultationWindow" SizeToContent="Height" Width="810">
+        Title="AddConsultationWindow" SizeToContent="Height" Width="810"
+        Background="{x:Static SystemColors.ControlBrush}">
     <Window.Resources>
         <converters:AllToVisibilityConverter x:Key="AllToVisibilityConverter" />
         <converters:InverseAllToVisibilityConverter x:Key="InverseAllToVisibilityConverter"/>

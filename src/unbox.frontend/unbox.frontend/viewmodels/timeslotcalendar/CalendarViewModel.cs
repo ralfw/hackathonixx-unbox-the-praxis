@@ -117,7 +117,7 @@ namespace unbox.frontend.viewmodels.timeslotcalendar
             {
                 foreach (var day in month.Days)
                 {
-                    if (day.DayInt != 0)
+                    if (day.DayInt != 0 && new DateTime(month.YearInt, month.MonthInt, day.DayInt).DayOfWeek != DayOfWeek.Sunday)
                     {
                         day.Workload = WorkloadCalculator.CalculateWorkload(
                             TimeSlots.Where(t =>

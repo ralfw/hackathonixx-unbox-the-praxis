@@ -10,8 +10,8 @@ namespace unbox.backend.tests
         [Test, Explicit]
         public void Send_notifications()
         {
-            System.Environment.SetEnvironmentVariable("PUSHOVER_APP_TOKEN", "ad9p542uaubfxmc3mcw4t4tu72or4n");
-            System.Environment.SetEnvironmentVariable("PUSHOVER_USER_KEY", "2xvMY59qr2pnu3U1bGeHTAZnX8Zj5R");
+            System.Environment.SetEnvironmentVariable("PUSHOVER_APP_TOKEN", "???");
+            System.Environment.SetEnvironmentVariable("PUSHOVER_USER_KEY", "???");
             
             var sut = new BackendRequestHandler();
             sut.Handle(new RegisterConsultationCommand {
@@ -25,8 +25,10 @@ namespace unbox.backend.tests
             });
             
             var result = sut.HandleNotificationRequest(new DateTime(2019,2,4, 9,5,0));
-            
             Assert.AreEqual(1, result);
+            
+            result = sut.HandleNotificationRequest(new DateTime(2019,2,4, 9,5,0));
+            Assert.AreEqual(0, result);
         }
     }
 }

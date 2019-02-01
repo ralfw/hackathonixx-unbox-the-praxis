@@ -35,7 +35,7 @@ namespace unbox.frontend.viewmodels.timeslotcalendar
 
         public DayViewModel(int day)
         {
-            Day = day.ToString();
+            Day = day == 0 ? "" : day.ToString();
             DayInt = day;
         }
 

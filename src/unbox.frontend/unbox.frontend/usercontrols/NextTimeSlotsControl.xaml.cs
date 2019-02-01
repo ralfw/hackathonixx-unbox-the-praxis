@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using unbox.frontend.enums;
 using unbox.frontend.viewmodels.nexttimeslots;
 
 namespace unbox.frontend.usercontrols
@@ -28,8 +29,11 @@ namespace unbox.frontend.usercontrols
 
         private void Bg_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ((HourViewModel) ((FrameworkElement) sender).DataContext).IsPatientAvailable =
-                !((HourViewModel) ((FrameworkElement) sender).DataContext).IsPatientAvailable;
+            if (((HourViewModel) ((FrameworkElement) sender).DataContext).Workload != WorkloadEnum.Blocked)
+            {
+                ((HourViewModel) ((FrameworkElement) sender).DataContext).IsPatientAvailable =
+                    !((HourViewModel) ((FrameworkElement) sender).DataContext).IsPatientAvailable;
+            }
         }
     }
 }

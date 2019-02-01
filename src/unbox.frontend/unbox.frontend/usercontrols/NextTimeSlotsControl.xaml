@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              UseLayoutRounding="True"
              SnapsToDevicePixels="True">
-    <Border BorderBrush="DarkGray" Background="White" BorderThickness="1">
+    <Border BorderBrush="DarkGray" Background="LightGray" BorderThickness="1">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
             <ItemsControl ItemsSource="{Binding Days}" Margin="-1,0,0,0">
                 <ItemsControl.ItemsPanel>
@@ -20,7 +20,7 @@
                     <DataTemplate>
                         <Border BorderBrush="DarkGray" BorderThickness="1,0,0,0">
                             <StackPanel Margin="0,0,10,0">
-                                <Border BorderThickness="0,0,1,1" BorderBrush="DarkGray">
+                                <Border BorderThickness="0,0,1,1" BorderBrush="DarkGray" Background="White">
                                     <TextBlock Text="{Binding Day}" Margin="5" />
                                 </Border>
                                 <ItemsControl ItemsSource="{Binding Hours}">
@@ -33,23 +33,26 @@
                                         <DataTemplate>
                                             <Border BorderBrush="DarkGray" BorderThickness="0,0,1,0" Name="Bg" MouseDown="Bg_MouseDown">
                                                 <StackPanel>
-                                                    <TextBlock Margin="5" Text="{Binding Hour}" Name="Text" />
-                                                    <CheckBox Margin="5,0,5,5" IsChecked="{Binding IsPatientAvailable, Mode=TwoWay}" HorizontalAlignment="Center" />
+                                                    <TextBlock Margin="5,5,5,0" Text="{Binding Hour}" Name="Text" />
+                                                    <TextBlock Margin="5,0,5,5" Text="{Binding NextHour}" Name="Text2" Opacity="0.5" />
+                                                    <CheckBox Margin="5,0,5,5" IsChecked="{Binding IsPatientAvailable, Mode=TwoWay}" HorizontalAlignment="Center" Name="Chk" />
                                                 </StackPanel>
                                             </Border>
                                             <DataTemplate.Triggers>
                                                 <DataTrigger Binding="{Binding Workload}" Value="Blocked">
                                                     <Setter TargetName="Bg" Property="Background" Value="LightGray" />
                                                     <Setter TargetName="Text" Property="Foreground" Value="Gray" />
+                                                    <Setter TargetName="Text2" Property="Foreground" Value="Gray" />
+                                                    <Setter TargetName="Chk" Property="IsEnabled" Value="False" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Workload}" Value="Green">
-                                                    <Setter TargetName="Bg" Property="Background" Value="PaleGreen" />
+                                                    <Setter TargetName="Bg" Property="Background" Value="#BAEEA9" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Workload}" Value="Yellow">
-                                                    <Setter TargetName="Bg" Property="Background" Value="#FFFF80" />
+                                                    <Setter TargetName="Bg" Property="Background" Value="#FFFFAC" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Workload}" Value="Red">
-                                                    <Setter TargetName="Bg" Property="Background" Value="Coral" />
+                                                    <Setter TargetName="Bg" Property="Background" Value="#FFCCCC" />
                                                 </DataTrigger>
                                             </DataTemplate.Triggers>
                                         </DataTemplate>

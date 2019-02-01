@@ -46,7 +46,7 @@ namespace unbox.console.client
                 Console.ReadLine();
 
                 var success = reqh.Handle(cmd);
-                Console.WriteLine("  {0}", success ? "👍" : "😢");
+                Console.WriteLine("  {0}", success ? "+1" : ":-(");
 
                 if (success) {
                     var plan = reqh.Handle(new CurrentPlanQuery {Date = new DateTime(2019, 2, 4)});
@@ -54,6 +54,14 @@ namespace unbox.console.client
                         Console.WriteLine($"  {entry.PatientId}: {entry.AssignedTimeslotStart:s}, {entry.RequestedTimeslot.Duration}");
                 }
             }
+            
+            /*
+            Console.Write("To notify press ENTER");
+            System.Environment.SetEnvironmentVariable("PUSHOVER_APP_TOKEN", "???");
+            System.Environment.SetEnvironmentVariable("PUSHOVER_USER_KEY", "???");
+            var n = reqh.HandleNotificationRequest(new DateTime(2019, 2, 4, 10,55,0));
+            Console.WriteLine($"{n} patients notified!");
+            */
         }
     }
 }

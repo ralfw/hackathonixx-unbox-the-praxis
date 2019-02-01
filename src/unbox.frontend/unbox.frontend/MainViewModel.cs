@@ -37,6 +37,7 @@ namespace unbox.frontend
             ShowAddConsultationCommand = new RelayCommand(OnShowAddConsultationWindowRequest);
 
             //GenerateTestData();
+            FillSchedule(null, DateTime.Today);
         }
 
         private void OnConsultationAdded(IBackendRequestHandler backendRequestHandler)
@@ -45,17 +46,23 @@ namespace unbox.frontend
             query.Date = DateTime.Today;
             var resultPlan = backendRequestHandler.Handle(query);
 
-            FillSchedule(resultPlan);
+            FillSchedule(resultPlan, query.Date);
         }
 
-        private void FillSchedule(CurrentPlanResult resultPlan)
+        private void FillSchedule(CurrentPlanResult resultPlan, DateTime queryDate)
         {
             var timeSlots = new List<TimeSlotViewModel>();
-            foreach (var result in resultPlan.Schedule)
+            if (resultPlan != null)
             {
-                timeSlots.Add(new TimeSlotViewModel(result.RequestedTimeslot.Start, result.RequestedTimeslot.End,
-                    result.AssignedTimeslotStart, result.RequestedTimeslot.Duration));
+                foreach (var result in resultPlan.Schedule)
+                {
+                    timeSlots.Add(new TimeSlotViewModel(result.RequestedTimeslot.Start, result.RequestedTimeslot.End,
+                        result.AssignedTimeslotStart, result.RequestedTimeslot.Duration));
+                }
             }
+
+            timeSlots.Add(new TimeSlotViewModel(queryDate + new TimeSpan(12,0,0),queryDate + new TimeSpan(13,0,0), queryDate + new TimeSpan(12,0,0), new TimeSpan(1,0,0), true));
+
 
             TimeSlots = timeSlots;
             Hours = new List<viewmodels.timeslotplan.HourViewModel>();

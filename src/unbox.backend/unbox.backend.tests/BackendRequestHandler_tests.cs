@@ -30,5 +30,16 @@ namespace unbox.backend.tests
             result = sut.HandleNotificationRequest(new DateTime(2019,2,4, 9,5,0));
             Assert.AreEqual(0, result);
         }
+
+
+        [Test]
+        public void Error_reproduction()
+        {
+            var sut = new BackendRequestHandler();
+
+            var result = sut.Handle(new CurrentPlanQuery {Date = new DateTime(2019, 2, 4)});
+            
+            Assert.IsEmpty(result.Schedule);
+        }
     }
 }

@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:x.common.WPF.Controls;assembly=x.common.wpf"
         xmlns:usercontrols="clr-namespace:unbox.frontend.usercontrols"
+        xmlns:converters="clr-namespace:x.common.WPF.Converters;assembly=x.common.wpf"
+        ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="AddConsultationWindow" SizeToContent="Height" Width="600">
+    <Window.Resources>
+        <converters:AllToVisibilityConverter x:Key="AllToVisibilityConverter" />
+        <converters:InverseAllToVisibilityConverter x:Key="InverseAllToVisibilityConverter"/>
+    </Window.Resources>
+
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -45,8 +52,8 @@
                 <TextBox Grid.Column="2" Grid.Row="4"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="6" Text="Zeitplanung:"  HorizontalAlignment="Right"/>
-                <StackPanel Grid.Column="2" Grid.Row="6" Grid.RowSpan="2">
-                    <Grid>
+                <DockPanel  Grid.Column="2" Grid.Row="6" Grid.RowSpan="2">
+                    <Grid DockPanel.Dock="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
@@ -59,9 +66,19 @@
                         <TextBlock Grid.Column="0" Grid.Row="1" Text="Patient hat Zeit:" Margin="15,0,0,0"/>
                         <usercontrols:NextTimeSlotsControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="nts" DockPanel.Dock="Top" />
                     </Grid>
-                    <RadioButton GroupName="Zeitplanung" Content="Termin in Zukunft:" Margin="0,10,0,0"/>
-                    <controls:HyperlinkButton Content="Zeitslot angeben..." Margin="15,5,0,0" Command="{Binding AddTimeSlotCommand}"/>
-                </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <RadioButton GroupName="Zeitplanung" Content="Termin in Zukunft:" Margin="0,10,5,0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding RequestedDateString}" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding RequestedTimeSlotString}" Margin="10,0,15,0" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"/>
+                            <Image Source="../../images/icon16LinkCancel.png" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"
+                                   />
+                        </StackPanel>
+                        <controls:HyperlinkButton Content="Zeitslot angeben..." Margin="15,5,0,0" 
+                                                  Command="{Binding AddTimeSlotCommand}" 
+                                                  Visibility="{Binding RequestedDateString, Converter={StaticResource InverseAllToVisibilityConverter}}"/>
+                    </StackPanel>
+                </DockPanel>
             </Grid>
         </controls:ShadowBorder>
        

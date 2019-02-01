@@ -22,6 +22,24 @@ namespace unbox.frontend.addConsultation.viewModels
             set => SetProperty(nameof(RequestedDuration), ref _requestesDuration, value);
         }
 
+        private string _requestedDateString;
+        public string RequestedDateString
+        {
+            get => _requestedDateString;
+            set => SetProperty(nameof(RequestedDateString), ref _requestedDateString, value);
+        }
+
+        private string _requestedTimeSlotString;
+        public string RequestedTimeSlotString
+        {
+            get => _requestedTimeSlotString;
+            set => SetProperty(nameof(RequestedTimeSlotString), ref _requestedTimeSlotString, value);
+        }
+
+        public DateTime RequestedStart { get; set; }
+        public DateTime RequestedEnd { get; set; }
+
+
         public List<DayViewModel> Days { get; set; }
 
         public RelayCommand AddConsultationCommand { get; set; }

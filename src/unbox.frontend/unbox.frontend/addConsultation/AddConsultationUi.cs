@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using unbox.contracts;
 using unbox.frontend.addConsultation.view;
 using unbox.frontend.addConsultation.viewModels;
 using unbox.frontend.enums;
+using unbox.frontend.helper;
 using unbox.frontend.viewmodels.nexttimeslots;
+using unbox.frontend.viewmodels.timeslotcalendar;
+using DayViewModel = unbox.frontend.viewmodels.nexttimeslots.DayViewModel;
 
 namespace unbox.frontend.addConsultation
 {
@@ -15,12 +20,20 @@ namespace unbox.frontend.addConsultation
         private TimeSlotSelectionViewModel _timeSlotSelectionViewModel;
         private TimeSlotSelectionWindow _timeSlotSelectionWindow;
 
+        private IBackendRequestHandler _backendRequestHandler;
+
+        internal AddConsultationUi(IBackendRequestHandler backendRequestHandler)
+        {
+            _backendRequestHandler = backendRequestHandler;
+        }
+
         internal void ShowConsultationUi()
         {
             if (_viewModel == null)
             {
                 _viewModel = new AddConsultationViewModel(OnAddConsultationRequest, OnHasToShowSelectionTimeSlots, OnCloseRequest);
-                GenerateTestData();
+                _viewModel.Patient = "1";
+                SetTestDataAddConsultationViewModel();
             }
 
             _window = new AddConsultationWindow();
@@ -33,7 +46,7 @@ namespace unbox.frontend.addConsultation
             _window.Close();
         }
 
-        private void GenerateTestData()
+        private void SetTestDataAddConsultationViewModel()
         {
             _viewModel.Days = new List<DayViewModel>()
             {
@@ -99,22 +112,67 @@ namespace unbox.frontend.addConsultation
                         },
                     }
                 }
-
             };
-
         }
 
 
         private void OnAddConsultationRequest()
         {
-            throw new NotImplementedException();
+            _backendRequestHandler.Handle(DtoMapper.Map(_viewModel));
+            _window.Close();
         }
         private void OnHasToShowSelectionTimeSlots()
         {
-            _timeSlotSelectionViewModel = new TimeSlotSelectionViewModel();
+            _timeSlotSelectionViewModel = new TimeSlotSelectionViewModel(AddTimeSlot);
+            SetTestDataTimeSlotSelection();
             _timeSlotSelectionWindow = new TimeSlotSelectionWindow {DataContext = _timeSlotSelectionViewModel};
             _timeSlotSelectionWindow.ShowDialog();
         }
 
+        private void SetTestDataTimeSlotSelection()
+        {
+            var months = new List<MonthViewModel>
+            {
+                new MonthViewModel(1,2019),
+                new MonthViewModel(2,2019),
+                new MonthViewModel(3,2019),
+                new MonthViewModel(4,2019),
+                new MonthViewModel(5,2019),
+                new MonthViewModel(6,2019),
+                new MonthViewModel(7,2019),
+                new MonthViewModel(8,2019),
+                new MonthViewModel(9,2019),
+                new MonthViewModel(10,2019),
+            };
+            var calendar = new CalendarViewModel(months)
+            {
+                SelectedMonth = months.First()
+            };
+            _timeSlotSelectionViewModel.CalenderViewModel = calendar;
+        }
+
+
+        private void AddTimeSlot()
+        {
+            SetRequestedSlot();
+            _timeSlotSelectionWindow.Close();
+        }
+
+        private void SetRequestedSlot()
+        {
+            var date = _timeSlotSelectionViewModel.CalenderViewModel.SelectedDate;
+            _viewModel.RequestedDateString = TimeSlotStringMapper.Map(date);
+            _viewModel.RequestedTimeSlotString = TimeSlotStringMapper.Map(_timeSlotSelectionViewModel.StartTimeSpan,
+                                                _timeSlotSelectionViewModel.EndTimeSpan);
+            if (_timeSlotSelectionViewModel.StartTimeSpan != null)
+            {
+                _viewModel.RequestedStart = (DateTime)(date + _timeSlotSelectionViewModel.StartTimeSpan);
+            }
+
+            if (_timeSlotSelectionViewModel.EndTimeSpan != null)
+            {
+                _viewModel.RequestedEnd = (DateTime)(date + _timeSlotSelectionViewModel.EndTimeSpan);
+            }           
+        }
     }
 }

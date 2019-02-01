@@ -1,5 +1,6 @@
 ﻿
 using System.Windows;
+using unbox.contracts;
 
 namespace unbox.frontend
 {
@@ -11,7 +12,7 @@ namespace unbox.frontend
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = new MainViewModel(null);
         }
     }
 }

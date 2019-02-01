@@ -23,16 +23,15 @@ namespace unbox.planning
                 tentativeCalendarEntry.End = temporaryEnd;
 
                 
-                if (HasCollision(calendar, tentativeCalendarEntry)) {
+                if (HasCollision(calendar, tentativeCalendarEntry) !=  new TimeSpan(0,0,0)) {
                     var newPlannedTime = FindNewConsultationOption(calendar, consultation, tentativeCalendarEntry);
                     if( newPlannedTime.HasValue) {
                         tentativeCalendarEntry.Start = newPlannedTime.Value;
+
                         consultation.PlannedStart = tentativeCalendarEntry.Start;
                         calendar.Add(tentativeCalendarEntry);
                     }
                     else {
-                        // hier neuen teil einfügen
-                        
                         unableToPlan.Add(consultation);
                     }
                 }
@@ -53,7 +52,7 @@ namespace unbox.planning
         {
             do {
                 tentativeCalendarEntry.Start = tentativeCalendarEntry.Start.AddMinutes(5);
-                if (HasCollision(calendar, tentativeCalendarEntry) is false) {
+                if (HasCollision(calendar, tentativeCalendarEntry) == new TimeSpan(0,0,0)) {
                     return tentativeCalendarEntry.Start;
                 }
             }while((tentativeCalendarEntry.Start.Add(consultation.RequestedTimeslot.Duration) < consultation.RequestedTimeslot.End));
@@ -61,15 +60,53 @@ namespace unbox.planning
             return null;
         }
 
-        private static bool HasCollision(List<CalendarEntry> calendar, CalendarEntry newConsultation) {
-            foreach(var element in calendar) {
+        private static TimeSpan? HasCollision(List<CalendarEntry> calendar, CalendarEntry newConsultation) {
 
-                if ((newConsultation.Start <= element.Start && newConsultation.End >= element.Start) ||
-                    (newConsultation.Start >= element.Start && element.End > newConsultation.Start)) {
-                    return true;
+            
+
+            foreach(var element in calendar) {
+               
+                TimeSpan nextCollidation = CollidateWithNext(element, newConsultation);
+                TimeSpan previousCollidation = CollidateWithPrevious(element, newConsultation);
+               
+                var sumCollidation = previousCollidation + nextCollidation;
+                if(sumCollidation != new TimeSpan(0, 0, 0))
+                {
+                    return sumCollidation;
                 }
+                
+
+                //if ((newConsultation.Start <= element.Start && newConsultation.End >= element.Start) ||
+                //    (newConsultation.Start >= element.Start && element.End > newConsultation.Start)) {
+                //    return true;
+                //}
+                
             }
-            return false; 
+            return new TimeSpan(0,0,0); 
+        }
+
+        private static TimeSpan CollidateWithNext(CalendarEntry element, CalendarEntry newConsultation)
+        {
+            if (newConsultation.Start < element.Start && newConsultation.End > element.Start)
+            {
+                return (newConsultation.End - element.Start);
+            }
+            else
+            {
+                return new TimeSpan(0,0,0);
+            }
+        }
+
+        private static TimeSpan CollidateWithPrevious(CalendarEntry element, CalendarEntry newConsultation)
+        {
+            if(newConsultation.Start >= element.Start && element.End > newConsultation.Start)
+            {
+                return (element.End - newConsultation.Start);
+            }
+            else
+            {
+                return new TimeSpan(0, 0, 0);
+            }
         }
     }
 }

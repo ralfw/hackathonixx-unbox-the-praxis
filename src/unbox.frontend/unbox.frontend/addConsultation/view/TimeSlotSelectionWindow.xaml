@@ -22,11 +22,11 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Patient hat Zeit:" Margin="0,0,10,0"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Patient hat Zeit:" Margin="0,0,10,0" VerticalAlignment="Center"/>
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-            <TextBox Text="Von:"/>
-            <controls:TimePicker Margin="5,0,10,0" Time="{Binding StartTimeSpan, Mode=TwoWay}" />
-            <TextBox Text="bis:"/>
+            <TextBlock Text="Von:" VerticalAlignment="Center"/>
+            <controls:TimePicker Margin="5,0,10,0" Time="{Binding StartTimeSpan, Mode=TwoWay}"  />
+            <TextBlock Text="bis:" VerticalAlignment="Center"/>
             <controls:TimePicker Margin="5,0,10,0" Time="{Binding EndTimeSpan, Mode=TwoWay}"/>
         </StackPanel>
 

@@ -52,7 +52,7 @@ namespace unbox.frontend
             dat.DataContext = calendar;
             Days = new List<DayViewModel>()
             {
-                new DayViewModel("heute")
+                new DayViewModel("heute", DateTime.Today)
                 {
                     Hours = new List<HourViewModel>
                     {
@@ -83,7 +83,7 @@ namespace unbox.frontend
                         },
                     }
                 },
-                new DayViewModel("morgen")
+                new DayViewModel("morgen", DateTime.Today.AddDays(1))
                 {
                     Hours = new List<HourViewModel>
                     {

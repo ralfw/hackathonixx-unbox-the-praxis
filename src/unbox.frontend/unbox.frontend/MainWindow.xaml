@@ -4,11 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:x.common.WPF.Controls;assembly=x.common.wpf"
+        xmlns:usercontrols="clr-namespace:unbox.frontend.usercontrols"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Background="{x:Static SystemColors.ControlBrush}">
-    <Grid>
-        <controls:AdvancedButton Content="Konsultation hinzufügen" Command="{Binding ShowAddConsultationCommand}"/>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <controls:AdvancedButton Grid.Row="0" Content="Konsultation hinzufügen" Command="{Binding ShowAddConsultationCommand}" Margin="0,0,0,10"/>
+        <usercontrols:TimeSlotPlan Grid.Row="1" x:Name="pln" />
         
     </Grid>
 </Window>

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 using unbox.frontend.enums;
+using x.common.Net.Extensions;
 using x.common.WPF.ViewModel;
 
 namespace unbox.frontend.viewmodels.nexttimeslots
@@ -21,8 +17,14 @@ namespace unbox.frontend.viewmodels.nexttimeslots
         public bool IsPatientAvailable
         {
             get => _isPatientAvailable;
-            set => SetProperty(nameof(IsPatientAvailable), ref _isPatientAvailable, value);
+            set
+            {
+                SetProperty(nameof(IsPatientAvailable), ref _isPatientAvailable, value);
+                OnPatientAvailableChanged.CallIfNotNull();
+            }
         }
+
+        public Action OnPatientAvailableChanged { get; set; }
 
         public HourViewModel(int hour)
         {

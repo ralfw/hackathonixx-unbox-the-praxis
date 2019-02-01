@@ -8,10 +8,11 @@
         xmlns:converters="clr-namespace:x.common.WPF.Converters;assembly=x.common.wpf"
         ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="AddConsultationWindow" SizeToContent="Height" Width="600">
+        Title="AddConsultationWindow" SizeToContent="Height" Width="810">
     <Window.Resources>
         <converters:AllToVisibilityConverter x:Key="AllToVisibilityConverter" />
         <converters:InverseAllToVisibilityConverter x:Key="InverseAllToVisibilityConverter"/>
+        <converters:BoolInvertConverter x:Key="InvertConverter"/>
     </Window.Resources>
 
     <Grid Margin="15">
@@ -32,7 +33,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="Auto"/>
@@ -43,13 +44,17 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Patient:" HorizontalAlignment="Right"/>
-                <TextBox Grid.Column="2" Grid.Row="0"/>
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Patient}" HorizontalAlignment="Left" Width="300"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="Vorraussichtl. Behandlungsdauer:" HorizontalAlignment="Right"/>
-                <controls:SpinBox Grid.Column="2" Grid.Row="2" Value="{Binding RequestedDuration}" HorizontalAlignment="Left"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Vorraussichtl. Behandlungsdauer:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
+                    <controls:SpinBox Value="{Binding RequestedDuration, Mode=TwoWay}" HorizontalAlignment="Left" Width="35"/>
+                    <TextBlock Text="Minuten" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                </StackPanel>
+                
 
-                <TextBlock Grid.Column="0" Grid.Row="4" Text="Beschreibung:" HorizontalAlignment="Right" />
-                <TextBox Grid.Column="2" Grid.Row="4"/>
+        <!--        <TextBlock Grid.Column="0" Grid.Row="4" Text="Beschreibung:" HorizontalAlignment="Right" />
+                <TextBox Grid.Column="2" Grid.Row="4" TextWrapping="Wrap" Height="50"/>-->
 
                 <TextBlock Grid.Column="0" Grid.Row="6" Text="Zeitplanung:"  HorizontalAlignment="Right"/>
                 <DockPanel  Grid.Column="2" Grid.Row="6" Grid.RowSpan="2">
@@ -62,17 +67,24 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <RadioButton Grid.Column="0" GroupName="Zeitplanung" Grid.Row="0" Content="Akuter Termin"/>
-                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Patient hat Zeit:" Margin="15,0,0,0"/>
+                        <RadioButton Grid.Column="0" GroupName="Zeitplanung" Grid.Row="0" Content="Akuter Termin"                                   
+                                     IsChecked="{Binding IsUrgent}"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Patient hat Zeit:" Margin="15,0,5,0" VerticalAlignment="Bottom"/>
                         <usercontrols:NextTimeSlotsControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="nts" DockPanel.Dock="Top" />
                     </Grid>
                     <StackPanel Orientation="Vertical">
-                        <RadioButton GroupName="Zeitplanung" Content="Termin in Zukunft:" Margin="0,10,5,0"/>
+                        <RadioButton GroupName="Zeitplanung" Content="Termin in Zukunft:" Margin="0,10,5,0" IsChecked="{Binding IsUrgent, Converter={StaticResource InvertConverter}}"/>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding RequestedDateString}" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"/>
-                            <TextBlock Text="{Binding RequestedTimeSlotString}" Margin="10,0,15,0" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"/>
-                            <Image Source="../../images/icon16LinkCancel.png" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"
-                                   />
+                            <TextBlock Text="{Binding RequestedDateString}" VerticalAlignment="Center" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding RequestedTimeSlotString}" VerticalAlignment="Center" Margin="10,0,15,0" Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"/>
+                            <controls:LightweightImageButton ImageSource="../../images/icon16LinkCancel.png"
+                                                             VerticalAlignment="Center"
+                                                             Visibility="{Binding RequestedDateString, Converter={StaticResource AllToVisibilityConverter}}"
+                                                             Command="{Binding RemoveRequestedTimeSpanCommand}"
+                                                             BorderThickness="0">
+
+                            </controls:LightweightImageButton>
+                            
                         </StackPanel>
                         <controls:HyperlinkButton Content="Zeitslot angeben..." Margin="15,5,0,0" 
                                                   Command="{Binding AddTimeSlotCommand}" 

@@ -36,7 +36,7 @@
 
             </ItemsControl>
 
-            <ItemsControl ItemsSource="{Binding Hours}" MinHeight="2800">
+            <ItemsControl ItemsSource="{Binding Hours, RelativeSource={RelativeSource AncestorType=local:TimeSlotPlan}}" MinHeight="2800">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <controls:RelationPanel/>

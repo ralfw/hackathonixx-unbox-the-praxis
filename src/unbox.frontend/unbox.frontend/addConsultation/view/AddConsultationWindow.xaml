@@ -96,7 +96,7 @@
        
        <!-- <Separator Grid.Row="1" Margin="0,15,0,15"/>-->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <controls:AdvancedButton Content="Ok" Command="{Binding AddConsultationCommand}" IsDefault="True" Margin="0,0,10,0"/>
+            <controls:AdvancedButton Content="OK" Command="{Binding AddConsultationCommand}" IsDefault="True" Margin="0,0,10,0"/>
             <controls:AdvancedButton Content="Abbrechen" Command="{Binding CloseCommand}" IsCancel="True"/>
         </StackPanel>
     </Grid>

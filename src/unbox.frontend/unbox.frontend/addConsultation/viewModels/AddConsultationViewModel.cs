@@ -47,7 +47,7 @@ namespace unbox.frontend.addConsultation.viewModels
             set => SetProperty(nameof(IsUrgent), ref _isUrgent, value);
         }
 
-        public List<DayViewModel> Days { get; set; }
+        public NextTimeSlotsViewModel DataContextNextCalendar { get; set; }
 
         public RelayCommand AddConsultationCommand { get; set; }
 

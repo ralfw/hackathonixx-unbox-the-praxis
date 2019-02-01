@@ -5,6 +5,7 @@ using unbox.frontend.addConsultation.view;
 using unbox.frontend.addConsultation.viewModels;
 using unbox.frontend.enums;
 using unbox.frontend.helper;
+using unbox.frontend.viewmodels.nexttimeslots;
 using unbox.frontend.viewmodels.timeslotcalendar;
 using x.common.Net.Extensions;
 using unbox.frontend.viewmodels.timeslotplan;
@@ -35,6 +36,7 @@ namespace unbox.frontend.addConsultation
         {
             _viewModel = new AddConsultationViewModel(OnAddConsultationRequest, OnHasToShowSelectionTimeSlots, OnCloseRequest);
             _viewModel.Patient = "1";
+            _viewModel.RequestedDuration = 15;
             SetTestDataAddConsultationViewModel();
 
             _window = new AddConsultationWindow();
@@ -49,7 +51,8 @@ namespace unbox.frontend.addConsultation
 
         private void SetTestDataAddConsultationViewModel()
         {
-            _viewModel.Days = new List<DayViewModel>()
+            _viewModel.DataContextNextCalendar = new NextTimeSlotsViewModel(
+            new List<DayViewModel>()
             {
                 new DayViewModel(DateTime.Today)
                 {
@@ -122,8 +125,10 @@ namespace unbox.frontend.addConsultation
                         },
                     }
                 }
-            };
+            }, GetAllTimeSlots(2));
         }
+
+       
 
         private void OnPatientAvailableChanged()
         {
@@ -149,8 +154,8 @@ namespace unbox.frontend.addConsultation
 
         private void SetTestDataTimeSlotSelection()
         {
-            var dummySlots = new List<TimeSlotViewModel>();
-            dummySlots.Add(new TimeSlotViewModel(new DateTime(2019,2,2,8,0,0), new DateTime(2019,2,2,20,0,0), new DateTime(2019,2,2,8,0,0), new TimeSpan(6,0,0)));
+            /*var dummySlots = new List<TimeSlotViewModel>();
+            dummySlots.Add(new TimeSlotViewModel(new DateTime(2019,2,2,8,0,0), new DateTime(2019,2,2,20,0,0), new DateTime(2019,2,2,8,0,0), new TimeSpan(6,0,0)));*/
             var months = new List<MonthViewModel>
             {
                 new MonthViewModel(1,2019),
@@ -164,7 +169,7 @@ namespace unbox.frontend.addConsultation
                 new MonthViewModel(9,2019),
                 new MonthViewModel(10,2019),
             };
-            var calendar = new CalendarViewModel(months, dummySlots)
+            var calendar = new CalendarViewModel(months, GetAllTimeSlots(365))
             {
                 SelectedMonth = months[2],
                 SelectedDate = DateTime.Today
@@ -198,6 +203,37 @@ namespace unbox.frontend.addConsultation
             {
                 _viewModel.RequestedEnd = (DateTime) (date + end);
             }
+        }
+
+
+        private List<TimeSlotViewModel> GetAllTimeSlots(int nextDays)
+        {
+            var list = new List<TimeSlotViewModel>();
+
+            var query = new CurrentPlanQuery();
+            for (int i = 0; i < nextDays; i++)
+            {
+                query.Date = DateTime.Today.AddDays(i);
+                var resultPlan = _backendRequestHandler.Handle(query);
+                if (resultPlan != null)
+                {
+                    list.AddRange(GetSlots(resultPlan));
+                }
+            }
+
+            return list;
+        }
+
+        private List<TimeSlotViewModel> GetSlots(CurrentPlanResult resultPlan)
+        {
+            var timeSlots = new List<TimeSlotViewModel>();
+            foreach (var result in resultPlan.Schedule)
+            {
+                timeSlots.Add(new TimeSlotViewModel(result.RequestedTimeslot.Start, result.RequestedTimeslot.End,
+                    result.AssignedTimeslotStart, result.RequestedTimeslot.Duration));
+            }
+
+            return timeSlots;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace unbox.frontend.helper
             }
             else
             {
-                foreach (var viewModelDay in viewModel.Days)
+                foreach (var viewModelDay in viewModel.DataContextNextCalendar.Days)
                 {
                     var firstChecked = viewModelDay.Hours.FirstOrDefault(h => h.IsPatientAvailable);
                     if (firstChecked != null)

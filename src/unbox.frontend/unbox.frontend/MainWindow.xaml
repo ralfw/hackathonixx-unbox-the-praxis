@@ -6,16 +6,18 @@
         xmlns:controls="clr-namespace:x.common.WPF.Controls;assembly=x.common.wpf"
         xmlns:usercontrols="clr-namespace:unbox.frontend.usercontrols"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        Background="{x:Static SystemColors.ControlBrush}">
-    <Grid Margin="15">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <controls:AdvancedButton Grid.Row="0" Content="Konsultation hinzufügen" Command="{Binding ShowAddConsultationCommand}" Margin="0,0,0,10"/>
-        <usercontrols:TimeSlotPlan Grid.Row="1" x:Name="pln" />
+        Title="concept Edition de Hackathon" SizeToContent="WidthAndHeight"
+        Background="{x:Static SystemColors.ControlBrush}"
+        Icon="images/medatixx.ico">
+    <Grid>
+        <Image Source="images/concept.png" Width="1008" Height="579" />
+        <controls:AdvancedButton Grid.Row="0" Content="Konsultation hinzufügen" Command="{Binding ShowAddConsultationCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="20" Margin="15,546,0,0">
+            <controls:AdvancedButton.Template>
+                <ControlTemplate>
+                    <Border Background="Transparent" Cursor="Hand" />
+                </ControlTemplate>
+            </controls:AdvancedButton.Template>
+        </controls:AdvancedButton>
         
     </Grid>
 </Window>

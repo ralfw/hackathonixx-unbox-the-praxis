@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using unbox.contracts;
 using unbox.frontend.addConsultation.view;
 using unbox.frontend.addConsultation.viewModels;
@@ -33,7 +34,7 @@ namespace unbox.frontend.addConsultation
             _onConsultationAdded = onConsultationAdded;
         }
 
-        internal void ShowConsultationUi()
+        internal void ShowConsultationUi(Window owner)
         {
             _viewModel = new AddConsultationViewModel(OnAddConsultationRequest, OnHasToShowSelectionTimeSlots, OnCloseRequest);
             _viewModel.Patient = "Test, Theo";
@@ -42,7 +43,8 @@ namespace unbox.frontend.addConsultation
 
             _window = new AddConsultationWindow();
             _window.DataContext = _viewModel;
-            _window.Show();
+            _window.Owner = owner;
+            _window.ShowDialog();
         }
 
         private void OnCloseRequest()
@@ -105,6 +107,7 @@ namespace unbox.frontend.addConsultation
             _timeSlotSelectionViewModel.CalenderViewModel.StartTime = new TimeSpan(8,0,0);
             _timeSlotSelectionViewModel.CalenderViewModel.EndTime = new TimeSpan(18, 0, 0);
             _timeSlotSelectionWindow = new TimeSlotSelectionWindow {DataContext = _timeSlotSelectionViewModel};
+            _timeSlotSelectionWindow.Owner = _window;
             _timeSlotSelectionWindow.ShowDialog();
         }
 
@@ -186,7 +189,7 @@ namespace unbox.frontend.addConsultation
             foreach (var result in resultPlan.Schedule)
             {
                 timeSlots.Add(new TimeSlotViewModel(result.RequestedTimeslot.Start, result.RequestedTimeslot.End,
-                    result.AssignedTimeslotStart, result.RequestedTimeslot.Duration));
+                    result.AssignedTimeslotStart, result.RequestedTimeslot.Duration) { Title = result.PatientId });
             }
 
             return timeSlots;

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Windows;
 using unbox.contracts;
 
@@ -9,10 +10,18 @@ namespace unbox.frontend
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public Preview Preview { get; set; }
+
+        public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new MainViewModel(null);
+            DataContext = viewModel;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Preview.Close();
         }
     }
 }

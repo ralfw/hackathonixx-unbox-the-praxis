@@ -35,9 +35,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>medatixx.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,6 +82,9 @@
     <Compile Include="helper\TimeSlotStringMapper.cs" />
     <Compile Include="helper\WorkloadCalculator.cs" />
     <Compile Include="MainUi.cs" />
+    <Compile Include="Preview.xaml.cs">
+      <DependentUpon>Preview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="usercontrols\NextTimeSlotsControl.xaml.cs">
       <DependentUpon>NextTimeSlotsControl.xaml</DependentUpon>
     </Compile>
@@ -125,6 +133,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="addConsultation\view\AddConsultationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Preview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,6 +190,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\icon16LinkCancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\concept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\medatixx.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="medatixx.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

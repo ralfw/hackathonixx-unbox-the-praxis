@@ -17,7 +17,7 @@ namespace unbox.frontend.addConsultation.view
     /// <summary>
     /// Interaction logic for TimeSlotSelectionWindow.xaml
     /// </summary>
-    public partial class TimeSlotSelectionWindow : Window
+    public partial class TimeSlotSelectionWindow
     {
         public TimeSlotSelectionWindow()
         {

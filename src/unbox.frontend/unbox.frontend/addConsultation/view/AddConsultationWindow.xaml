@@ -1,4 +1,4 @@
-﻿<Window x:Class="unbox.frontend.addConsultation.view.AddConsultationWindow"
+﻿<dialogs:DialogWindow x:Class="unbox.frontend.addConsultation.view.AddConsultationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,9 +6,11 @@
         xmlns:controls="clr-namespace:x.common.WPF.Controls;assembly=x.common.wpf"
         xmlns:usercontrols="clr-namespace:unbox.frontend.usercontrols"
         xmlns:converters="clr-namespace:x.common.WPF.Converters;assembly=x.common.wpf"
+        xmlns:dialogs="clr-namespace:x.common.WPF.Dialogs;assembly=x.common.wpf"
         ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="AddConsultationWindow" SizeToContent="Height" Width="810"
+        Title="Konsultation hinzufügen" SizeToContent="Height" Width="750"
+        WindowStartupLocation="CenterOwner"
         Background="{x:Static SystemColors.ControlBrush}">
     <Window.Resources>
         <converters:AllToVisibilityConverter x:Key="AllToVisibilityConverter" />
@@ -24,6 +26,7 @@
         </Grid.RowDefinitions>
 
         <controls:ShadowBorder Grid.Row="0" Padding="10,10,10,10">
+            <StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -44,8 +47,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Patient:" HorizontalAlignment="Right"/>
-                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Patient}" HorizontalAlignment="Left" Width="300"/>
+                <TextBlock Text="Patient:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <controls:AdvancedTextBox Grid.Column="2" Grid.Row="0" Text="{Binding Patient}" HorizontalAlignment="Left" Width="300"/>
 
                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Vorraussichtl. Behandlungsdauer:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
@@ -70,7 +73,7 @@
                         </Grid.RowDefinitions>
                         <RadioButton Grid.Column="0" GroupName="Zeitplanung" Grid.Row="0" Content="Akuter Termin"                                   
                                      IsChecked="{Binding IsUrgent}"/>
-                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Patient hat Zeit:" Margin="15,0,5,0" VerticalAlignment="Bottom"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Patient hat Zeit:" Margin="15,0,5,25" VerticalAlignment="Bottom"/>
                         <usercontrols:NextTimeSlotsControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding DataContextNextCalendar}" DockPanel.Dock="Top" />
                     </Grid>
                     <StackPanel Orientation="Vertical">
@@ -93,6 +96,25 @@
                     </StackPanel>
                 </DockPanel>
             </Grid>
+                <Separator Margin="0,15" />
+                <Grid Margin="0,0,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Patient erreicht Praxis nach Benachrichtigung in:" Margin="0,0,5,10" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" />
+                    <TextBlock Text="Zusätzlicher Puffer für Verspätung:" Margin="0,0,5,0" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <controls:SpinBox Grid.Row="0" Grid.Column="1" Width="50" Value="30" Margin="0,0,5,10" />
+                    <controls:SpinBox Grid.Row="1" Grid.Column="1" Width="50" Value="10" Margin="0,0,5,0" />
+                    <TextBlock Text="Minuten" Margin="0,0,5,10" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" />
+                    <TextBlock Text="Minuten" Margin="0,0,5,0" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" />
+                </Grid>
+            </StackPanel>
         </controls:ShadowBorder>
        
        <!-- <Separator Grid.Row="1" Margin="0,15,0,15"/>-->
@@ -101,4 +123,4 @@
             <controls:AdvancedButton Content="Abbrechen" Command="{Binding CloseCommand}" IsCancel="True"/>
         </StackPanel>
     </Grid>
-</Window>
+</dialogs:DialogWindow>

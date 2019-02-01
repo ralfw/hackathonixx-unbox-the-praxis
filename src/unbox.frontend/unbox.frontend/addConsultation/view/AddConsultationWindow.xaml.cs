@@ -5,11 +5,13 @@ namespace unbox.frontend.addConsultation.view
     /// <summary>
     /// Interaction logic for AddConsultationWindow.xaml
     /// </summary>
-    public partial class AddConsultationWindow : Window
+    public partial class AddConsultationWindow 
     {
         public AddConsultationWindow()
         {
             InitializeComponent();
         }
+
+
     }
 }

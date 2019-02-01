@@ -86,7 +86,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <controls:RelationPanel Margin="5,0,0,0">
+                        <controls:RelationPanel Margin="5,0,0,0" ToolTip="{Binding ToolTip}">
                             <Border Name="ActualSpan" Background="Blue" controls:RelationPanel.TopRelation="{Binding ActualStartRelation}" controls:RelationPanel.BottomRelation="{Binding ActualEndRelation}" Width="8" />
                             <Border Name="SlotSpan" Background="Blue" controls:RelationPanel.TopRelation="{Binding SlotStartRelation}" controls:RelationPanel.BottomRelation="{Binding SlotEndRelation}" Width="2" HorizontalAlignment="Left" />
                         </controls:RelationPanel>

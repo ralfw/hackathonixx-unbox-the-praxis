@@ -14,6 +14,11 @@ namespace unbox.frontend.viewmodels.timeslotplan
             IsBreak = isBreak;
         }
 
+        public string Title { get; set; }
+
+        public string ToolTip => Title + " " + Duration.TotalMinutes + " Minuten" + Environment.NewLine + "Zwischen " +
+                                 SlotStartTime.ToShortTimeString() + " und " + SlotEndTime.ToShortTimeString();
+
         public DateTime SlotStartTime { get; }
         public DateTime SlotEndTime { get; }
         public DateTime ActualStartTime { get; }

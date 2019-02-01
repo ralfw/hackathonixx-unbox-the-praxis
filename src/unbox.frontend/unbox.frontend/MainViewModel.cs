@@ -28,13 +28,14 @@ namespace unbox.frontend
 
         public RelayCommand ShowAddConsultationCommand { get; set; }
 
-        private AddConsultationUi _addConsultationUi;
+        internal AddConsultationUi AddConsultationUi { get; set; }
+        public Action OnShowAddConsultationWindowRequest { get; set; }
 
 
         public MainViewModel(IBackendRequestHandler backendRequestHandler)
         {
-            _addConsultationUi = new AddConsultationUi(backendRequestHandler, () => OnConsultationAdded(backendRequestHandler));
-            ShowAddConsultationCommand = new RelayCommand(OnShowAddConsultationWindowRequest);
+            AddConsultationUi = new AddConsultationUi(backendRequestHandler, () => OnConsultationAdded(backendRequestHandler));
+            ShowAddConsultationCommand = new RelayCommand(() => OnShowAddConsultationWindowRequest());
 
             //GenerateTestData();
             FillSchedule(null, DateTime.Today);
@@ -52,13 +53,13 @@ namespace unbox.frontend
         private void FillSchedule(CurrentPlanResult resultPlan, DateTime queryDate)
         {
             var timeSlots = new List<TimeSlotViewModel>();
-            timeSlots.Add(new TimeSlotViewModel(queryDate + new TimeSpan(12,0,0),queryDate + new TimeSpan(13,0,0), queryDate + new TimeSpan(12,0,0), new TimeSpan(1,0,0), true));
+            timeSlots.Add(new TimeSlotViewModel(queryDate + new TimeSpan(12,0,0),queryDate + new TimeSpan(13,0,0), queryDate + new TimeSpan(12,0,0), new TimeSpan(1,0,0), true) { Title = "Mittagspause" });
             if (resultPlan != null)
             {
                 foreach (var result in resultPlan.Schedule)
                 {
                     timeSlots.Add(new TimeSlotViewModel(result.RequestedTimeslot.Start, result.RequestedTimeslot.End,
-                        result.AssignedTimeslotStart, result.RequestedTimeslot.Duration));
+                        result.AssignedTimeslotStart, result.RequestedTimeslot.Duration) { Title = result.PatientId });
                 }
             }
 
@@ -71,10 +72,6 @@ namespace unbox.frontend
             }
         }
 
-        private void OnShowAddConsultationWindowRequest()
-        {
-            _addConsultationUi.ShowConsultationUi();
-        }
 
         private void GenerateTestData()
         {

@@ -12,6 +12,7 @@ namespace unbox.frontend.viewmodels.nexttimeslots
     public class HourViewModel : ViewModelBase
     {
         public string Hour { get; }
+        public string NextHour { get; }
         public int HourInt { get; }
         public WorkloadEnum Workload { get; set; }
 
@@ -25,7 +26,8 @@ namespace unbox.frontend.viewmodels.nexttimeslots
 
         public HourViewModel(int hour)
         {
-            Hour = hour + ":00";
+            Hour = hour.ToString("00") + ":00";
+            NextHour = "-" + (hour + 1).ToString("00") + ":00";
             HourInt = hour;
         }
 

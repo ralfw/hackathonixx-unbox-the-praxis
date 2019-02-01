@@ -65,6 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="controls\RelationPanel.cs" />
     <Compile Include="DummyTestWindow.xaml.cs">
       <DependentUpon>DummyTestWindow.xaml</DependentUpon>
     </Compile>
@@ -78,11 +79,16 @@
     <Compile Include="usercontrols\TimeSlotCalendarControl.xaml.cs">
       <DependentUpon>TimeSlotCalendarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="usercontrols\TimeSlotPlan.xaml.cs">
+      <DependentUpon>TimeSlotPlan.xaml</DependentUpon>
+    </Compile>
     <Compile Include="viewmodels\nexttimeslots\DayViewModel.cs" />
     <Compile Include="viewmodels\nexttimeslots\HourViewModel.cs" />
     <Compile Include="viewmodels\timeslotcalendar\CalendarViewModel.cs" />
     <Compile Include="viewmodels\timeslotcalendar\DayViewModel.cs" />
     <Compile Include="viewmodels\timeslotcalendar\MonthViewModel.cs" />
+    <Compile Include="viewmodels\timeslotplan\HourViewModel.cs" />
+    <Compile Include="viewmodels\timeslotplan\TimeSlotViewModel.cs" />
     <Page Include="DummyTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="usercontrols\TimeSlotCalendarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="usercontrols\TimeSlotPlan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

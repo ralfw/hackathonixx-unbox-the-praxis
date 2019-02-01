@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:unbox.frontend"
         xmlns:usercontrols="clr-namespace:unbox.frontend.usercontrols"
-        xmlns:controls="clr-namespace:x.common.WPF.Controls;assembly=x.common.wpf"
+        xmlns:commonControls="clr-namespace:x.common.WPF.Controls;assembly=x.common.wpf"
+        xmlns:controls="clr-namespace:unbox.frontend.controls"
         mc:Ignorable="d"
         Title="DummyTestWindow" Height="450" Width="800">
     <DockPanel Margin="10">
         <usercontrols:NextTimeSlotsControl x:Name="nts" DockPanel.Dock="Top" />
-        <controls:AdvancedDatePicker x:Name="dat" SelectedDate="{Binding SelectedDate, Mode=TwoWay}" DockPanel.Dock="Top" />
+        <commonControls:AdvancedDatePicker x:Name="dat" SelectedDate="{Binding SelectedDate, Mode=TwoWay}" DockPanel.Dock="Top" />
+        <usercontrols:TimeSlotPlan x:Name="pln" />
         <usercontrols:TimeSlotCalendarControl x:Name="cal" />
     </DockPanel>
 </Window>

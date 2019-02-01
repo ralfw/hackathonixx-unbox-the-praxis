@@ -64,13 +64,13 @@
                                 <Setter TargetName="Radio" Property="IsEnabled" Value="False" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Workload}" Value="Green">
-                                <Setter TargetName="Bg" Property="Background" Value="PaleGreen" />
+                                <Setter TargetName="Bg" Property="Background" Value="#BAEEA9" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Workload}" Value="Yellow">
-                                <Setter TargetName="Bg" Property="Background" Value="#FFFF80" />
+                                <Setter TargetName="Bg" Property="Background" Value="#FFFFAC" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Workload}" Value="Red">
-                                <Setter TargetName="Bg" Property="Background" Value="Coral" />
+                                <Setter TargetName="Bg" Property="Background" Value="#FFCCCC" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
 

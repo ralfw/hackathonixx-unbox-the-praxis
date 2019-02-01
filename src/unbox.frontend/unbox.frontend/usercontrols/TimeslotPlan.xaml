@@ -8,7 +8,7 @@
              xmlns:commonControls="clr-namespace:x.common.WPF.Controls;assembly=x.common.wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700" SnapsToDevicePixels="True">
-    <commonControls:AdvancedScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BindableVerticalOffset="800" MinWidth="200">
+    <commonControls:AdvancedScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BindableVerticalOffset="400" MinWidth="200">
         <commonControls:MultipleInOnePanel>
             <ItemsControl ItemsSource="{Binding TimeSlots}" Background="#BAEEA9" Focusable="False">
                 <ItemsControl.ItemsPanel>
@@ -36,7 +36,12 @@
 
             </ItemsControl>
 
-            <ItemsControl ItemsSource="{Binding Hours, RelativeSource={RelativeSource AncestorType=local:TimeSlotPlan}}" MinHeight="2800" Focusable="False">
+            <controls:RelationPanel>
+                <Border Background="#e0e0e0" controls:RelationPanel.TopRelation="0.0" controls:RelationPanel.BottomRelation="0.3333333" />
+                <Border Background="#e0e0e0" controls:RelationPanel.TopRelation="0.75" controls:RelationPanel.BottomRelation="1.0" />
+            </controls:RelationPanel>
+
+            <ItemsControl ItemsSource="{Binding Hours, RelativeSource={RelativeSource AncestorType=local:TimeSlotPlan}}" MinHeight="1500" Focusable="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <controls:RelationPanel/>
@@ -46,19 +51,19 @@
                     <DataTemplate>
                     <Border BorderThickness="0,0,0,1" BorderBrush="DarkGray">
                         <DockPanel>
-                            <TextBlock Text="{Binding Hour}" FontWeight="Bold" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBlock Text="{Binding Hour}" FontWeight="Bold" Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <controls:RelationPanel>
                                 <Border BorderThickness="0,0,0,1" BorderBrush="#20000000" controls:RelationPanel.TopRelation="0" controls:RelationPanel.BottomRelation="0.25">
-                                    <TextBlock Text="00" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <TextBlock Text="00" Margin="5,1" FontSize="9" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 </Border>
                                 <Border BorderThickness="0,0,0,1" BorderBrush="#20000000" controls:RelationPanel.TopRelation="0.25" controls:RelationPanel.BottomRelation="0.5">
-                                    <TextBlock Text="15" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <TextBlock Text="15" Margin="5,1" FontSize="9" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 </Border>
                                 <Border BorderThickness="0,0,0,1" BorderBrush="#20000000" controls:RelationPanel.TopRelation="0.5" controls:RelationPanel.BottomRelation="0.75">
-                                    <TextBlock Text="30" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <TextBlock Text="30" Margin="5,1" FontSize="9" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 </Border>
                                 <Border Margin="0,0,0,1" controls:RelationPanel.TopRelation="0.75" controls:RelationPanel.BottomRelation="1">
-                                    <TextBlock Text="45" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <TextBlock Text="45" Margin="5,1" FontSize="9" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 </Border>
 
                             </controls:RelationPanel>

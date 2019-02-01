@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using unbox.frontend.helper;
 using unbox.frontend.viewmodels.timeslotplan;
 using x.common.WPF.ViewModel;

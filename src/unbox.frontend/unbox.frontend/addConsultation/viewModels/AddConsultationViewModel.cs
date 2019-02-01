@@ -49,6 +49,8 @@ namespace unbox.frontend.addConsultation.viewModels
 
         public List<DayViewModel> Days { get; set; }
 
+        public NextTimeSlotsViewModel DataContextNextCalendar { get; set; }
+
         public RelayCommand AddConsultationCommand { get; set; }
 
         public RelayCommand AddTimeSlotCommand { get; set; }

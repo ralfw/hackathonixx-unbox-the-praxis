@@ -31,6 +31,8 @@ namespace unbox.planning
                         calendar.Add(tentativeCalendarEntry);
                     }
                     else {
+                        // hier neuen teil einfügen
+                        
                         unableToPlan.Add(consultation);
                     }
                 }
@@ -42,6 +44,7 @@ namespace unbox.planning
 
             unableToPlan.ForEach(c => consultations.Remove(c));
 
+            //TODO: Verbessern: Planner liefert derzeit false, auch wenn von 3 unplanned consultations 2 eingeplant werden konnten
             return unableToPlan.Count == 0;
         }
 
@@ -60,6 +63,7 @@ namespace unbox.planning
 
         private static bool HasCollision(List<CalendarEntry> calendar, CalendarEntry newConsultation) {
             foreach(var element in calendar) {
+
                 if ((newConsultation.Start <= element.Start && newConsultation.End >= element.Start) ||
                     (newConsultation.Start >= element.Start && element.End > newConsultation.Start)) {
                     return true;

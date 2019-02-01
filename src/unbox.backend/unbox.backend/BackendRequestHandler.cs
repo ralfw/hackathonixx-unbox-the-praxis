@@ -40,9 +40,6 @@ namespace unbox.backend
 
         public CurrentPlanResult Handle(CurrentPlanQuery query)
         {
-            var x = _consultations.First();
-            
-            
             var result = _consultations.Where(cons => cons.PlannedStart.HasValue && 
                                                       cons.PlannedStart.Value.Year == query.Date.Year &&
                                                       cons.PlannedStart.Value.Month == query.Date.Month &&
@@ -79,9 +76,19 @@ namespace unbox.backend
             if (_consultations.Any()) {
                 var d = _consultations.First().RequestedTimeslot.Start;
                 cal.Add(new CalendarEntry {
+                    ConsultationId = "Zu früh",
+                    Start = new DateTime(d.Year, d.Month, d.Day, 0, 0, 0),
+                    End = new DateTime(d.Year, d.Month, d.Day, 7, 59, 0)
+                });
+                cal.Add(new CalendarEntry {
                     ConsultationId = "Mahlzeit",
                     Start = new DateTime(d.Year, d.Month, d.Day, 12, 0, 0),
                     End = new DateTime(d.Year, d.Month, d.Day, 13, 0, 0)
+                });
+                cal.Add(new CalendarEntry {
+                    ConsultationId = "Zu spät",
+                    Start = new DateTime(d.Year, d.Month, d.Day, 18, 1, 0),
+                    End = new DateTime(d.Year, d.Month, d.Day, 23, 59, 0)
                 });
             }
 

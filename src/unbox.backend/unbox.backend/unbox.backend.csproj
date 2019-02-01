@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BackendRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PushoverNotificationProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\unbox.planning\unbox.planning.csproj">

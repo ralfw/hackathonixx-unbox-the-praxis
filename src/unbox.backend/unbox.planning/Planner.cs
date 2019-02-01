@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using unbox.planning.data;
 
 namespace unbox.planning
@@ -8,66 +9,59 @@ namespace unbox.planning
     {
         public static bool UpdatePlan(List<CalendarEntry> calendar, List<Consultation> consultations)
         {
+            var unableToPlan = new List<Consultation>();
+            
             foreach (var consultation in consultations)
             {
-                if (consultation.PlannedStart == null)
-                {
-                    var ConsultationOption = new CalendarEntry();
-                    ConsultationOption.Start = consultation.RequestedTimeslot.Start;
-                    var temporaryEnd = consultation.RequestedTimeslot.Start.Add(consultation.RequestedTimeslot.Duration);
-                    ConsultationOption.ConsultationId = consultation.ConsultationId;
-                    ConsultationOption.End = temporaryEnd;
-                    if (HasCollision(calendar, ConsultationOption))
-                    {
-                        var newPlannedTime = FindNewConsultationOption(calendar, consultation, ConsultationOption);
-                        if( newPlannedTime == null)
-                        {
-                            consultations.Remove(consultation);
-                            return false;
-                        }
-                        else
-                        {
-                            consultation.PlannedStart = newPlannedTime;
-                            calendar.Add(ConsultationOption);
-                            return true;
-                        }
+                if (consultation.PlannedStart.HasValue) continue;
+
+                var tentativeCalendarEntry = new CalendarEntry {
+                    ConsultationId = consultation.ConsultationId,
+                    Start = consultation.RequestedTimeslot.Start
+                };
+                var temporaryEnd = consultation.RequestedTimeslot.Start.Add(consultation.RequestedTimeslot.Duration);
+                tentativeCalendarEntry.End = temporaryEnd;
+
+                
+                if (HasCollision(calendar, tentativeCalendarEntry)) {
+                    var newPlannedTime = FindNewConsultationOption(calendar, consultation, tentativeCalendarEntry);
+                    if( newPlannedTime.HasValue) {
+                        tentativeCalendarEntry.Start = newPlannedTime.Value;
+                        consultation.PlannedStart = tentativeCalendarEntry.Start;
+                        calendar.Add(tentativeCalendarEntry);
                     }
-                    else
-                    {
-                        consultation.PlannedStart = consultation.RequestedTimeslot.Start;
-                        calendar.Add(ConsultationOption);
-                        return true;
+                    else {
+                        unableToPlan.Add(consultation);
                     }
                 }
-               
+                else {
+                    consultation.PlannedStart = tentativeCalendarEntry.Start;
+                    calendar.Add(tentativeCalendarEntry);
+                }
             }  
 
-            return true;
+            unableToPlan.ForEach(c => consultations.Remove(c));
+
+            return unableToPlan.Count == 0;
         }
 
-        private static DateTime? FindNewConsultationOption(List<CalendarEntry> calendar, Consultation consultation, CalendarEntry consultationOption)
+        
+        private static DateTime? FindNewConsultationOption(List<CalendarEntry> calendar, Consultation consultation, CalendarEntry tentativeCalendarEntry)
         {
-            bool consultationSet = false;
-            do
-            {
-                consultationOption.Start.AddMinutes(5);
-                if(!HasCollision(calendar, consultationOption))
-                {
-                    consultationSet = true;
-                    return consultationOption.Start;
+            do {
+                tentativeCalendarEntry.Start = tentativeCalendarEntry.Start.AddMinutes(5);
+                if (HasCollision(calendar, tentativeCalendarEntry) is false) {
+                    return tentativeCalendarEntry.Start;
                 }
-            }while(!consultationSet || (consultationOption.Start.Add(consultation.RequestedTimeslot.Duration) < consultation.RequestedTimeslot.End));
+            }while((tentativeCalendarEntry.Start.Add(consultation.RequestedTimeslot.Duration) < consultation.RequestedTimeslot.End));
 
             return null;
-
         }
 
-        private static bool HasCollision(List<CalendarEntry> calendar, CalendarEntry newConsultation)
-        {
-            foreach(var element in calendar)
-            {
-                if ((newConsultation.Start <= element.Start && newConsultation.End >= element.Start)||(newConsultation.Start >= element.Start && element.End > newConsultation.Start))
-                {
+        private static bool HasCollision(List<CalendarEntry> calendar, CalendarEntry newConsultation) {
+            foreach(var element in calendar) {
+                if ((newConsultation.Start <= element.Start && newConsultation.End >= element.Start) ||
+                    (newConsultation.Start >= element.Start && element.End > newConsultation.Start)) {
                     return true;
                 }
             }

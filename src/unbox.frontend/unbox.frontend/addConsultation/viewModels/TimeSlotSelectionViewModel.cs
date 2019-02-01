@@ -14,23 +14,6 @@ namespace unbox.frontend.addConsultation.viewModels
             set => SetProperty(nameof(CalenderViewModel), ref _calenderViewModel, value);
         }
 
-        private TimeSpan? _startTimeSpan;
-
-        public TimeSpan? StartTimeSpan
-        {
-            get => _startTimeSpan;
-            set => SetProperty(nameof(StartTimeSpan), ref _startTimeSpan, value);
-        }
-
-
-        private TimeSpan? _endTimeSpan;
-
-        public TimeSpan? EndTimeSpan
-        {
-            get => _endTimeSpan;
-            set => SetProperty(nameof(EndTimeSpan), ref _endTimeSpan, value);
-        }
-
 
         public RelayCommand AddTimeSlotCommand { get; set; }
 

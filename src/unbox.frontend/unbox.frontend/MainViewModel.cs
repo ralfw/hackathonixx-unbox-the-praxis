@@ -52,6 +52,7 @@ namespace unbox.frontend
         private void FillSchedule(CurrentPlanResult resultPlan, DateTime queryDate)
         {
             var timeSlots = new List<TimeSlotViewModel>();
+            timeSlots.Add(new TimeSlotViewModel(queryDate + new TimeSpan(12,0,0),queryDate + new TimeSpan(13,0,0), queryDate + new TimeSpan(12,0,0), new TimeSpan(1,0,0), true));
             if (resultPlan != null)
             {
                 foreach (var result in resultPlan.Schedule)
@@ -60,8 +61,6 @@ namespace unbox.frontend
                         result.AssignedTimeslotStart, result.RequestedTimeslot.Duration));
                 }
             }
-
-            timeSlots.Add(new TimeSlotViewModel(queryDate + new TimeSpan(12,0,0),queryDate + new TimeSpan(13,0,0), queryDate + new TimeSpan(12,0,0), new TimeSpan(1,0,0), true));
 
 
             TimeSlots = timeSlots;

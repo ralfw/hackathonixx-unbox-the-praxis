@@ -9,6 +9,7 @@ using unbox.frontend.viewmodels.nexttimeslots;
 using unbox.frontend.viewmodels.timeslotcalendar;
 using x.common.Net.Extensions;
 using unbox.frontend.viewmodels.timeslotplan;
+using x.common.WPF.Dialogs;
 using DayViewModel = unbox.frontend.viewmodels.nexttimeslots.DayViewModel;
 using HourViewModel = unbox.frontend.viewmodels.nexttimeslots.HourViewModel;
 
@@ -35,7 +36,7 @@ namespace unbox.frontend.addConsultation
         internal void ShowConsultationUi()
         {
             _viewModel = new AddConsultationViewModel(OnAddConsultationRequest, OnHasToShowSelectionTimeSlots, OnCloseRequest);
-            _viewModel.Patient = "1";
+            _viewModel.Patient = "Test, Theo";
             _viewModel.RequestedDuration = 15;
             SetTestDataAddConsultationViewModel();
 
@@ -51,79 +52,26 @@ namespace unbox.frontend.addConsultation
 
         private void SetTestDataAddConsultationViewModel()
         {
+            var hoursToday = new List<HourViewModel>();
+            for(int i = Math.Max(DateTime.Now.Hour + 1, 8); i < 18; i++)
+            {
+                hoursToday.Add(new HourViewModel(i){ OnPatientAvailableChanged = OnPatientAvailableChanged });
+            }
+            var hoursTomorrow = new List<HourViewModel>();
+            for(int i = 8; i < 18; i++)
+            {
+                hoursTomorrow.Add(new HourViewModel(i) { OnPatientAvailableChanged = OnPatientAvailableChanged });
+            }
             _viewModel.DataContextNextCalendar = new NextTimeSlotsViewModel(
             new List<DayViewModel>()
             {
                 new DayViewModel(DateTime.Today)
                 {
-                    Hours = new List<HourViewModel>
-                    {
-                        new HourViewModel(14)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Green
-                        },
-                        new HourViewModel(15)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Green,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                        new HourViewModel(16)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Red,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                        new HourViewModel(17)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Blocked,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                        new HourViewModel(18)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Yellow,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                    }
+                    Hours = hoursToday
                 },
                 new DayViewModel(DateTime.Today.AddDays(1))
                 {
-                    Hours = new List<HourViewModel>
-                    {
-                        new HourViewModel(8)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Green,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                        new HourViewModel(9)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Green,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                        new HourViewModel(10)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Red,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                        new HourViewModel(11)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Blocked,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                        new HourViewModel(12)
-                        {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Yellow,
-                            OnPatientAvailableChanged = OnPatientAvailableChanged
-                        },
-                    }
+                    Hours = hoursTomorrow
                 }
             }, GetAllTimeSlots(2));
         }
@@ -138,16 +86,24 @@ namespace unbox.frontend.addConsultation
 
         private void OnAddConsultationRequest()
         {
-            _backendRequestHandler.Handle(DtoMapper.Map(_viewModel));
-            _onConsultationAdded.CallIfNotNull();
-            _window.Close();
+            var success = _backendRequestHandler.Handle(DtoMapper.Map(_viewModel));
+            if (success)
+            {
+                _onConsultationAdded.CallIfNotNull();
+                _window.Close();
+            }
+            else
+            {
+                MessageDialog.CreateNotification("Konsultation konnte nicht angelegt werden",
+                    "Bitte geben Sie ggf. einen anderen Verfügbarkeitszeitraum an", "x.smartplan").Show(_window);
+            }
         }
         private void OnHasToShowSelectionTimeSlots()
         {
             _timeSlotSelectionViewModel = new TimeSlotSelectionViewModel(AddTimeSlot);
             SetTestDataTimeSlotSelection();
-            _timeSlotSelectionViewModel.StartTimeSpan = new TimeSpan(0,0,0);
-            _timeSlotSelectionViewModel.EndTimeSpan = new TimeSpan(23, 59, 0);
+            _timeSlotSelectionViewModel.CalenderViewModel.StartTime = new TimeSpan(8,0,0);
+            _timeSlotSelectionViewModel.CalenderViewModel.EndTime = new TimeSpan(18, 0, 0);
             _timeSlotSelectionWindow = new TimeSlotSelectionWindow {DataContext = _timeSlotSelectionViewModel};
             _timeSlotSelectionWindow.ShowDialog();
         }
@@ -188,7 +144,7 @@ namespace unbox.frontend.addConsultation
         {
             var date = _timeSlotSelectionViewModel.CalenderViewModel.SelectedDate;
             _viewModel.RequestedDateString = TimeSlotStringMapper.Map(date);
-            SetRequestedTimeSlot(date, _timeSlotSelectionViewModel.StartTimeSpan, _timeSlotSelectionViewModel.EndTimeSpan);
+            SetRequestedTimeSlot(date, _timeSlotSelectionViewModel.CalenderViewModel.StartTime, _timeSlotSelectionViewModel.CalenderViewModel.EndTime);
         }
 
         private void SetRequestedTimeSlot(DateTime date, TimeSpan? start, TimeSpan? end)

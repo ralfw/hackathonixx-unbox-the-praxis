@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using unbox.frontend.helper;
 using unbox.frontend.viewmodels.timeslotplan;
 using x.common.WPF.ViewModel;
@@ -17,7 +18,7 @@ namespace unbox.frontend.viewmodels.nexttimeslots
             {
                 foreach (var hour in day.Hours)
                 {
-                    hour.Workload = WorkloadCalculator.CalculateWorkload(Timeslots, new TimeSpan(hour.HourInt, 0, 0),
+                    hour.Workload = WorkloadCalculator.CalculateWorkload(Timeslots.Where(t => t.ActualStartTime.Date == day.Date), new TimeSpan(hour.HourInt, 0, 0),
                         new TimeSpan(hour.HourInt + 1, 0, 0));
                 }
             }

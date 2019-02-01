@@ -26,8 +26,20 @@ namespace unbox.frontend.helper
                     {
                         registerConsultationCommand.RequestedTimeslot.Start =
                             TimeSlotStringMapper.Map(viewModelDay.Date, firstChecked.HourInt);
-                        registerConsultationCommand.RequestedTimeslot.End = TimeSlotStringMapper.Map(viewModelDay.Date, firstChecked.HourInt+1);
-                        break;
+                        var lastChecked = firstChecked;
+                        for(var i = viewModelDay.Hours.IndexOf(firstChecked); i < viewModelDay.Hours.Count; i++)
+                        {
+                            if (viewModelDay.Hours[i].IsPatientAvailable)
+                            {
+                                lastChecked = viewModelDay.Hours[i];
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        registerConsultationCommand.RequestedTimeslot.End = TimeSlotStringMapper.Map(viewModelDay.Date, lastChecked.HourInt+1);
+
                     }
                 }
             }

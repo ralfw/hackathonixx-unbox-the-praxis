@@ -44,6 +44,7 @@ namespace unbox.planning
 
             unableToPlan.ForEach(c => consultations.Remove(c));
 
+            //TODO: Verbessern: Planner liefert derzeit false, auch wenn von 3 unplanned consultations 2 eingeplant werden konnten
             return unableToPlan.Count == 0;
         }
 

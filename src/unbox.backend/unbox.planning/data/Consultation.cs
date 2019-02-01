@@ -8,6 +8,9 @@ namespace unbox.planning.data
         public string ConsultationId;
         public string PatientId;
         public Timeslot RequestedTimeslot;
+        
+        public TimeSpan NotificationLeadTime;
+        public bool HasBeenNotified;
 
         public DateTime? PlannedStart;
 

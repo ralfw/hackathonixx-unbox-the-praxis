@@ -10,7 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="700" SnapsToDevicePixels="True">
     <commonControls:AdvancedScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BindableVerticalOffset="800" MinWidth="200">
         <commonControls:MultipleInOnePanel>
-            <ItemsControl ItemsSource="{Binding TimeSlots}" Background="#BAEEA9">
+            <ItemsControl ItemsSource="{Binding TimeSlots}" Background="#BAEEA9" Focusable="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <controls:RelationPanel />
@@ -36,7 +36,7 @@
 
             </ItemsControl>
 
-            <ItemsControl ItemsSource="{Binding Hours, RelativeSource={RelativeSource AncestorType=local:TimeSlotPlan}}" MinHeight="2800">
+            <ItemsControl ItemsSource="{Binding Hours, RelativeSource={RelativeSource AncestorType=local:TimeSlotPlan}}" MinHeight="2800" Focusable="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <controls:RelationPanel/>
@@ -73,7 +73,7 @@
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
-            <ItemsControl ItemsSource="{Binding TimeSlots}" Margin="50,0,5,0">
+            <ItemsControl ItemsSource="{Binding TimeSlots}" Margin="50,0,5,0" Focusable="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />

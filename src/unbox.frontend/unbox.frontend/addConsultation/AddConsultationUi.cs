@@ -6,9 +6,10 @@ using unbox.frontend.addConsultation.view;
 using unbox.frontend.addConsultation.viewModels;
 using unbox.frontend.enums;
 using unbox.frontend.helper;
-using unbox.frontend.viewmodels.nexttimeslots;
 using unbox.frontend.viewmodels.timeslotcalendar;
+using unbox.frontend.viewmodels.timeslotplan;
 using DayViewModel = unbox.frontend.viewmodels.nexttimeslots.DayViewModel;
+using HourViewModel = unbox.frontend.viewmodels.nexttimeslots.HourViewModel;
 
 namespace unbox.frontend.addConsultation
 {
@@ -50,7 +51,7 @@ namespace unbox.frontend.addConsultation
         {
             _viewModel.Days = new List<DayViewModel>()
             {
-                new DayViewModel("heute")
+                new DayViewModel(DateTime.Today)
                 {
                     Hours = new List<HourViewModel>
                     {
@@ -81,7 +82,7 @@ namespace unbox.frontend.addConsultation
                         },
                     }
                 },
-                new DayViewModel("morgen")
+                new DayViewModel(DateTime.Today.AddDays(1))
                 {
                     Hours = new List<HourViewModel>
                     {
@@ -131,6 +132,8 @@ namespace unbox.frontend.addConsultation
 
         private void SetTestDataTimeSlotSelection()
         {
+            var dummySlots = new List<TimeSlotViewModel>();
+            dummySlots.Add(new TimeSlotViewModel(new DateTime(2019,2,2,8,0,0), new DateTime(2019,2,2,20,0,0), new DateTime(2019,2,2,8,0,0), new TimeSpan(6,0,0)));
             var months = new List<MonthViewModel>
             {
                 new MonthViewModel(1,2019),
@@ -144,7 +147,7 @@ namespace unbox.frontend.addConsultation
                 new MonthViewModel(9,2019),
                 new MonthViewModel(10,2019),
             };
-            var calendar = new CalendarViewModel(months)
+            var calendar = new CalendarViewModel(months, dummySlots)
             {
                 SelectedMonth = months.First()
             };

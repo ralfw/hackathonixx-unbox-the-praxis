@@ -14,7 +14,15 @@ namespace unbox.frontend.viewmodels.nexttimeslots
         public string Hour { get; }
         public string NextHour { get; }
         public int HourInt { get; }
-        public WorkloadEnum Workload { get; set; }
+
+        private WorkloadEnum _workload;
+
+        public WorkloadEnum Workload
+        {
+            get => _workload;
+            set => SetProperty(nameof(Workload), ref _workload, value);
+        }
+
 
         private bool _isPatientAvailable;
 

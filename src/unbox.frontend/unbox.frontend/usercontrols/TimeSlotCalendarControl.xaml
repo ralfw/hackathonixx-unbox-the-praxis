@@ -44,7 +44,7 @@
                     <TextBlock Margin="5" Text="So" HorizontalAlignment="Center" />
                 </Border>
             </UniformGrid>
-            <ItemsControl ItemsSource="{Binding SelectedMonth.Days}">
+            <ItemsControl ItemsSource="{Binding SelectedMonth.Days}" Focusable="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="7" UseLayoutRounding="False" />

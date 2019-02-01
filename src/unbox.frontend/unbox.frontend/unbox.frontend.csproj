@@ -72,6 +72,7 @@
     <Compile Include="enums\WorkloadEnum.cs" />
     <Compile Include="helper\DtoMapper.cs" />
     <Compile Include="helper\TimeSlotStringMapper.cs" />
+    <Compile Include="helper\WorkloadCalculator.cs" />
     <Compile Include="MainUi.cs" />
     <Compile Include="usercontrols\NextTimeSlotsControl.xaml.cs">
       <DependentUpon>NextTimeSlotsControl.xaml</DependentUpon>
@@ -84,6 +85,7 @@
     </Compile>
     <Compile Include="viewmodels\nexttimeslots\DayViewModel.cs" />
     <Compile Include="viewmodels\nexttimeslots\HourViewModel.cs" />
+    <Compile Include="viewmodels\nexttimeslots\NextTimeSlotsViewModel.cs" />
     <Compile Include="viewmodels\timeslotcalendar\CalendarViewModel.cs" />
     <Compile Include="viewmodels\timeslotcalendar\DayViewModel.cs" />
     <Compile Include="viewmodels\timeslotcalendar\MonthViewModel.cs" />

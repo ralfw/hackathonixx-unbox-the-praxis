@@ -10,7 +10,7 @@
              SnapsToDevicePixels="True">
     <Border BorderBrush="DarkGray" Background="LightGray" BorderThickness="1">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-            <ItemsControl ItemsSource="{Binding Days}" Margin="-1,0,0,0">
+            <ItemsControl ItemsSource="{Binding Days}" Margin="-1,0,-11,0" Focusable="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -23,7 +23,7 @@
                                 <Border BorderThickness="0,0,1,1" BorderBrush="DarkGray" Background="White">
                                     <TextBlock Text="{Binding Day}" Margin="5" />
                                 </Border>
-                                <ItemsControl ItemsSource="{Binding Hours}">
+                                <ItemsControl ItemsSource="{Binding Hours}" Focusable="False">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal" />

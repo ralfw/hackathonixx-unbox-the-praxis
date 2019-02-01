@@ -11,7 +11,11 @@
         Title="DummyTestWindow" Height="450" Width="800">
     <DockPanel Margin="10">
         <usercontrols:NextTimeSlotsControl x:Name="nts" DockPanel.Dock="Top" />
-        <commonControls:AdvancedDatePicker x:Name="dat" SelectedDate="{Binding SelectedDate, Mode=TwoWay}" DockPanel.Dock="Top" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
+            <commonControls:AdvancedDatePicker x:Name="dat" SelectedDate="{Binding SelectedDate, Mode=TwoWay}" />
+            <commonControls:TimePicker x:Name="tim1" Time="{Binding StartTime, Mode=TwoWay}" />
+            <commonControls:TimePicker x:Name="tim2" Time="{Binding EndTime, Mode=TwoWay}" />
+        </StackPanel>
         <usercontrols:TimeSlotPlan x:Name="pln" />
         <usercontrols:TimeSlotCalendarControl x:Name="cal" />
     </DockPanel>

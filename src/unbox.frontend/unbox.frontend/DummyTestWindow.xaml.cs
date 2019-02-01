@@ -28,7 +28,9 @@ namespace unbox.frontend
         public DummyTestWindow()
         {
             InitializeComponent();
-            nts.DataContext = this;
+
+            var dummySlots = new List<TimeSlotViewModel>();
+            dummySlots.Add(new TimeSlotViewModel(new DateTime(2019,2,2,8,0,0), new DateTime(2019,2,2,20,0,0), new DateTime(2019,2,2,8,0,0), new TimeSpan(3,0,0)));
 
             var months = new List<MonthViewModel>
             {
@@ -43,79 +45,71 @@ namespace unbox.frontend
                 new MonthViewModel(9,2019),
                 new MonthViewModel(10,2019),
             };
-            var calendar = new CalendarViewModel(months)
+            var calendar = new CalendarViewModel(months, dummySlots)
             {
                 SelectedMonth = months.First()
             };
 
             cal.DataContext = calendar;
             dat.DataContext = calendar;
-            Days = new List<DayViewModel>()
+            tim1.DataContext = calendar;
+            tim2.DataContext = calendar;
+            nts.DataContext = new NextTimeSlotsViewModel(new List<DayViewModel>
             {
-                new DayViewModel("heute")
+                new DayViewModel(DateTime.Today)
                 {
                     Hours = new List<HourViewModel>
                     {
                         new HourViewModel(14)
                         {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Green
+                            IsPatientAvailable = false
                         },
                         new HourViewModel(15)
                         {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Green
+                            IsPatientAvailable = false
                         },
                         new HourViewModel(16)
                         {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Red
+                            IsPatientAvailable = false
                         },
                         new HourViewModel(17)
                         {
-                            IsPatientAvailable = true,
-                            Workload = WorkloadEnum.Blocked
+                            IsPatientAvailable = true
                         },
                         new HourViewModel(18)
                         {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Yellow
+                            IsPatientAvailable = false
                         },
                     }
                 },
-                new DayViewModel("morgen")
+                new DayViewModel(DateTime.Today.AddDays(1))
                 {
                     Hours = new List<HourViewModel>
                     {
                         new HourViewModel(8)
                         {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Green
+                            IsPatientAvailable = false
                         },
                         new HourViewModel(9)
                         {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Green
+                            IsPatientAvailable = false
                         },
                         new HourViewModel(10)
                         {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Red
+                            IsPatientAvailable = false
                         },
                         new HourViewModel(11)
                         {
-                            IsPatientAvailable = true,
-                            Workload = WorkloadEnum.Blocked
+                            IsPatientAvailable = true
                         },
                         new HourViewModel(12)
                         {
-                            IsPatientAvailable = false,
-                            Workload = WorkloadEnum.Yellow
+                            IsPatientAvailable = false
                         },
                     }
                 }
 
-            };
+            }, dummySlots);
 
             TimeSlots = new List<TimeSlotViewModel>
             {
@@ -126,7 +120,6 @@ namespace unbox.frontend
 
         }
 
-        public List<DayViewModel> Days { get; set; }
         public List<TimeSlotViewModel> TimeSlots { get; set; }
     }
 }

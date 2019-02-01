@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using unbox.frontend.enums;
+using unbox.frontend.viewmodels.timeslotplan;
 using x.common.WPF.ViewModel;
 
 namespace unbox.frontend.viewmodels.timeslotcalendar
@@ -28,19 +29,20 @@ namespace unbox.frontend.viewmodels.timeslotcalendar
             var days = new List<DayViewModel>();
             for (var i = 0; i < weekDaysBeforeFirstDay; i++)
             {
-                days.Add(new DayViewModel(0) { Workload = WorkloadEnum.Blocked});
+                days.Add(new DayViewModel(0));
             }
 
             var daysInMonth = new DateTime(year, month, 1).AddMonths(1).AddDays(-1).Day;
             for (var i = 1; i <= daysInMonth; i++)
             {
-                days.Add(new DayViewModel(i) { Workload = WorkloadEnum.Green});
+                var currentI = i;
+                days.Add(new DayViewModel(i));
             }
 
             var remainingDaysInMonth = 6 - GetWeekDay(new DateTime(year, month, daysInMonth));
             for (var i = 0; i < remainingDaysInMonth; i++)
             {
-                days.Add(new DayViewModel(0) { Workload = WorkloadEnum.Blocked});
+                days.Add(new DayViewModel(0));
             }
 
             foreach (var day in days)

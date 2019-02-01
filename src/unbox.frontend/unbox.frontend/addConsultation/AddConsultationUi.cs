@@ -36,6 +36,7 @@ namespace unbox.frontend.addConsultation
         {
             _viewModel = new AddConsultationViewModel(OnAddConsultationRequest, OnHasToShowSelectionTimeSlots, OnCloseRequest);
             _viewModel.Patient = "1";
+            _viewModel.RequestedDuration = 15;
             SetTestDataAddConsultationViewModel();
 
             _window = new AddConsultationWindow();
@@ -214,8 +215,10 @@ namespace unbox.frontend.addConsultation
             {
                 query.Date = DateTime.Today.AddDays(i);
                 var resultPlan = _backendRequestHandler.Handle(query);
-
-                list.AddRange(GetSlots(resultPlan));
+                if (resultPlan != null)
+                {
+                    list.AddRange(GetSlots(resultPlan));
+                }
             }
 
             return list;

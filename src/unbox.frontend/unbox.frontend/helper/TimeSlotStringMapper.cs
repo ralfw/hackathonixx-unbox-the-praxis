@@ -15,9 +15,14 @@ namespace unbox.frontend.helper
         {
             if (startTimeSpan != null && endTimeSpan != null)
             {
-                return ((TimeSpan)startTimeSpan).ToString(@"hh\:mm\") + "-" + ((TimeSpan)endTimeSpan).ToString(@"hh\:mm\") + " Uhr";
+                return ((TimeSpan)startTimeSpan).ToString(@"hh\:mm") + "-" + ((TimeSpan)endTimeSpan).ToString(@"hh\:mm") + " Uhr";
             }
             return null;
+        }
+
+        internal static DateTime Map(DateTime day, int hourInt)
+        {
+            return new DateTime(day.Year, day.Month, day.Day, hourInt, 0,0);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using unbox.frontend.viewmodels.nexttimeslots;
+using x.common.Net.Extensions;
 using x.common.WPF.Commands;
 using x.common.WPF.ViewModel;
 
@@ -15,11 +16,11 @@ namespace unbox.frontend.addConsultation.viewModels
             set => SetProperty(nameof(Patient), ref _patient, value);
         }
 
-        private int _requestesDuration;
+        private int _requestedDuration;
         public int RequestedDuration
         {
-            get => _requestesDuration;
-            set => SetProperty(nameof(RequestedDuration), ref _requestesDuration, value);
+            get => _requestedDuration;
+            set => SetProperty(nameof(RequestedDuration), ref _requestedDuration, value);
         }
 
         private string _requestedDateString;
@@ -39,6 +40,12 @@ namespace unbox.frontend.addConsultation.viewModels
         public DateTime RequestedStart { get; set; }
         public DateTime RequestedEnd { get; set; }
 
+        private bool _isUrgent;
+        public bool IsUrgent
+        {
+            get => _isUrgent;
+            set => SetProperty(nameof(IsUrgent), ref _isUrgent, value);
+        }
 
         public List<DayViewModel> Days { get; set; }
 
@@ -46,13 +53,36 @@ namespace unbox.frontend.addConsultation.viewModels
 
         public RelayCommand AddTimeSlotCommand { get; set; }
 
+        public RelayCommand RemoveRequestedTimeSpanCommand { get; set; }
+
         public RelayCommand CloseCommand { get; set; }
+
+        private Action _onHasToShowSelectionTimeSlots;
 
         public AddConsultationViewModel(Action addConsultation, Action onHasToShowSelectionTimeSlots, Action onCloseRequest)
         {
+            _onHasToShowSelectionTimeSlots = onHasToShowSelectionTimeSlots;
+
             AddConsultationCommand = new RelayCommand(addConsultation);
-            AddTimeSlotCommand = new RelayCommand(onHasToShowSelectionTimeSlots);
-            CloseCommand = new RelayCommand(onCloseRequest);           
+            AddTimeSlotCommand = new RelayCommand(OnHasToShowSelectionTimeSlots);
+            CloseCommand = new RelayCommand(onCloseRequest);
+            RemoveRequestedTimeSpanCommand = new RelayCommand(RemoveRequestedTimeSpan);
+
+            IsUrgent = true;
+        }
+
+        private void OnHasToShowSelectionTimeSlots()
+        {
+            IsUrgent = false;
+            _onHasToShowSelectionTimeSlots.CallIfNotNull();
+        }
+
+        public void RemoveRequestedTimeSpan()
+        {
+            RequestedStart = DateTime.MinValue;
+            RequestedEnd = DateTime.MinValue;
+            RequestedDateString = null;
+            RequestedTimeSlotString = null;
         }
 
     }

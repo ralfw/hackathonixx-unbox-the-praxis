@@ -47,6 +47,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="unbox.backend">
+      <HintPath>..\..\..\bin\unbox.backend.dll</HintPath>
+    </Reference>
     <Reference Include="unbox.contracts">
       <HintPath>..\..\..\lib.contracts\unbox.contracts.dll</HintPath>
     </Reference>

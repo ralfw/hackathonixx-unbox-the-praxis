@@ -55,14 +55,34 @@ namespace unbox.backend
                                                         })
             };
         }
+        
+        
+        public void HandleNotificationRequest() => HandleNotificationRequest(DateTime.Now);
+        public int HandleNotificationRequest(DateTime refTime) {
+            var toNotify = _consultations.Where(cons => !cons.HasBeenNotified &&
+                                                        cons.PlannedStart.HasValue &&
+                                                        refTime >= cons.PlannedStart.Value.Subtract(cons.NotificationLeadTime))
+                                         .ToArray();
+            
+            var notProv = new PushoverNotificationProvider();
+            foreach (var cons in toNotify) {
+                notProv.Send("Ihr Termin wurde geplant!", 
+                            $"Lieber {cons.PatientId}, bitte kommen Sie für {cons.PlannedStart:hh:mm dd.MM.yyyy} in die Praxis!", 
+                             "http://medatixx.de");
+                cons.HasBeenNotified = true;
+            }
+
+            return toNotify.Length;
+        }
 
 
-        void Register(RegisterConsultationCommand cmd)
-        {
+        void Register(RegisterConsultationCommand cmd) {
             _consultations.Add(new Consultation {
                 ConsultationId = cmd.ConsultationId,
                 PatientId = cmd.PatientId,
                 RequestedTimeslot = cmd.RequestedTimeslot,
+                NotificationLeadTime = new TimeSpan(0,1,0,0),
+                HasBeenNotified = false,
                 PlannedStart = null,
                 ActualTimeslot = null,
                 Fixed = false
